@@ -440,31 +440,113 @@ char *get_nbr(const char *str)
     return (output);
 }
 
+
+void handle_zerostar(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+{
+	int format_int;
+	int len_format;
+	int len;
+	char *get_n;
+}
+
+void handle_minstar(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+{
+	int format_int;
+	int len_format;
+	int len;
+	char *get_n;
+}
+
+void handle_zero(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+{
+	int format_int;
+	int len_format;
+	int len;
+	char *get_n;
+
+	get_n = get_nbr(&format[pr->i + 1]);
+	len_format = ft_strlen(get_n);
+ 	format_int = ft_getnbr(&format[pr->i + 1]);
+        len = ft_len(format[pr->i + len_format + 1], lis);
+        pr->c = pr->c + ft_putspace(format_int, len, '0');
+        pr->c = pr->c + ptr[check_tab(format[pr->i + len_format + 1])](lis->ap);
+        pr->i = pr->i + len_format + 1;
+}
+
+void handle_star(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+{
+	int format_int;
+	int len_format;
+	int len;
+	char *get_n;
+}
+
+void handle_minus(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+{
+	int format_int;
+	int len_format;
+	int len;
+	char *get_n;
+
+	if (format[pr->i + 2] == '*')
+	    handle_minstar(format, lis, pr, ptr);
+	else
+	{
+	get_n = get_nbr(&format[pr->i + 1]);
+	len_format = ft_strlen(get_n);
+	format_int = ft_getnbr(&format[pr->i + 1]);
+	len = ft_len(format[pr->i + len_format + 1], lis);
+	pr->c += ptr[check_tab(format[pr->i + len_format + 1])](lis->ap);
+	pr->c += ft_putspace((format_int * (-1)), len, ' ');
+	pr->i += len_format + 1;
+	}
+}
+
+void handle_width(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+{
+	int format_int;
+	int len_format;
+	int len;
+	char *get_n;
+
+	get_n = get_nbr(&format[pr->i + 1]);
+	len_format = ft_strlen(get_n);
+ 	format_int = ft_getnbr(&format[pr->i + 1]);
+        len = ft_len(format[pr->i + len_format + 1], lis);
+        pr->c = pr->c + ft_putspace(format_int, len, ' ');
+        pr->c = pr->c + ptr[check_tab(format[pr->i + len_format + 1])](lis->ap);
+        pr->i = pr->i + len_format + 1;
+}
+
 int formating(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
 {
-    int format_int = ft_getnbr(&format[pr->i + 1]);
-    char *get_n = get_nbr(&format[pr->i + 1]);
-    int len_format = ft_strlen(get_n);
-    int len = 0;
-    char c = ' ';
-    if (check_tab(format[pr->i + len_format + 1]) == -1) {
+    char *get_n;
+    int len_format;
+    //int len;
+    //int format_int;
+     
+    get_n = get_nbr(&format[pr->i + 1]);
+    len_format = ft_strlen(get_n);
+    if (check_tab(format[pr->i + len_format + 1]) == -1)
+    {
         pr->c++;
         ft_putchar('%');
         return (0);
     }
-    if (format[pr->i + 1] != '-'){
-        if (get_n[0] == '0' && corresponding(format[pr->i + len_format + 1], "s") != 1)
-            c = '0';
-        len = ft_len(format[pr->i + len_format + 1], lis);
-        pr->c = pr->c + ft_putspace(format_int, len, c);
+    if (format[pr->i + 1] == '-')
+	handle_minus(format, lis, pr, ptr);
+    else
+    {
+        if (get_n[0] == '0' && corresponding(format[pr->i + len_format + 1], "sc") != 1)
+	    handle_zero(format, lis, pr, ptr);
+	else if (format[pr->i + 1] == '*')
+		handle_star(format, lis, pr, ptr);
+	else
+		handle_width(format, lis, pr, ptr);
+        /*len = ft_len(format[pr->i + len_format + 1], lis);
+        pr->c = pr->c + ft_putspace(format_int, len, ' ');
         pr->c = pr->c + ptr[check_tab(format[pr->i + len_format + 1])](lis->ap);
-        pr->i = pr->i + len_format + 1;
-    }
-    if (format[pr->i + 1] == '-'){
-        len = ft_len(format[pr->i + len_format + 1], lis);
-        pr->c = pr->c + ptr[check_tab(format[pr->i + len_format + 1])](lis->ap);
-        pr->c = pr->c + ft_putspace((format_int * -1), len, c);
-        pr->i = pr->i + len_format + 1;
+        pr->i = pr->i + len_format + 1;*/
     }
 }
 
@@ -474,7 +556,7 @@ int handle_percent(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va
     int len = 0;
     int add;
 
-    if (corresponding(format[pr->i + 1], "-0123456789") == 1)
+    if (corresponding(format[pr->i + 1], ".*-0123456789") == 1)
     {
         formating(format, lis, pr, ptr);
         return (0);
@@ -529,7 +611,7 @@ int	main()
 	int	a;
 	int	b;
 
-	a = ft_printf("test : salut%6X mec %%\n", -62);
-	b = printf("test : salut%6X mec %%\n", -62);
+	a = ft_printf("test : salut%03i mec %%\n", 12);
+	b = printf("test : salut%03i mec %%\n", 12);
 	printf("%d\n%d\n", a, b);
 }
