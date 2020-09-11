@@ -208,7 +208,6 @@ int	ft_printf_unbr(va_list ap)
 	int		nbr;
 	int		count;
 
-
 	nbr = va_arg(ap, int);
 	unbr = nbr;
 	unbr2 = unbr;
@@ -443,18 +442,30 @@ char *get_nbr(const char *str)
 
 void handle_zerostar(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
 {
-	int format_int;
-	int len_format;
+	int star_int;
 	int len;
-	char *get_n;
+	int forward;
+
+	star_int = va_arg(lis->ap, int);
+	forward = va_arg(lis->pa, int);
+	len = ft_len(format[pr->i + 3], lis);	
+	pr->c += ft_putspace(star_int, len, '0');
+	pr->c += ptr[check_tab(format[pr->i + 3])](lis->ap);
+	pr->i += 3;
 }
 
 void handle_minstar(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
 {
-	int format_int;
-	int len_format;
+	int star_int;
 	int len;
-	char *get_n;
+	int forward;
+
+	star_int = va_arg(lis->ap, int);
+	forward = va_arg(lis->pa, int);
+	len = ft_len(format[pr->i + 3], lis);
+	pr->c += ptr[check_tab(format[pr->i + 3])](lis->ap);
+	pr->c += ft_putspace(star_int, len, ' ');
+	pr->i += 3;
 }
 
 void handle_zero(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
@@ -464,6 +475,10 @@ void handle_zero(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_l
 	int len;
 	char *get_n;
 
+	if(format[pr->i + 2] == '*')
+		handle_zerostar(format, lis, pr, ptr);
+	else
+	{
 	get_n = get_nbr(&format[pr->i + 1]);
 	len_format = ft_strlen(get_n);
  	format_int = ft_getnbr(&format[pr->i + 1]);
@@ -471,14 +486,25 @@ void handle_zero(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_l
         pr->c = pr->c + ft_putspace(format_int, len, '0');
         pr->c = pr->c + ptr[check_tab(format[pr->i + len_format + 1])](lis->ap);
         pr->i = pr->i + len_format + 1;
+	}
+}
+
+void handle_dot(const char *format, s_list *lis, s_print *pr, int (*ptr[9])(va_list))
+{
 }
 
 void handle_star(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
 {
-	int format_int;
-	int len_format;
+	int star_int;
 	int len;
-	char *get_n;
+	int forward;
+
+	star_int = va_arg(lis->ap, int);
+	forward = va_arg(lis->pa, int);
+	len = ft_len(format[pr->i + 2], lis);
+	pr->c += ft_putspace(star_int, len, ' ');
+	pr->c += ptr[check_tab(format[pr->i + 2])](lis->ap);
+	pr->i += 2;
 }
 
 void handle_minus(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
@@ -518,62 +544,51 @@ void handle_width(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_
         pr->i = pr->i + len_format + 1;
 }
 
-int formating(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+void formating(const char *fmt, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
 {
     char *get_n;
     int len_format;
-    //int len;
-    //int format_int;
-     
-    get_n = get_nbr(&format[pr->i + 1]);
+    int star;
+
+    get_n = get_nbr(&fmt[pr->i + 1]);
     len_format = ft_strlen(get_n);
-    if (check_tab(format[pr->i + len_format + 1]) == -1)
+    star = 0;
+    if (fmt[pr->i + 2] == '*')
+	star = 1;
+    if (fmt[pr->i + len_format + 1] == '.')
+	handle_dot(fmt, lis, pr, ptr);
+    if (get_n[0] == '0' && corresponding(fmt[pr->i + len_format + star + 1], "sc") != 1)
+	handle_zero(fmt, lis, pr, ptr);
+    else if (fmt[pr->i + 1] == '-')
+	handle_minus(fmt, lis, pr, ptr);
+    else if (check_tab(fmt[pr->i + len_format + 1] == -1))
     {
         pr->c++;
         ft_putchar('%');
-        return (0);
     }
-    if (format[pr->i + 1] == '-')
-	handle_minus(format, lis, pr, ptr);
     else
-    {
-        if (get_n[0] == '0' && corresponding(format[pr->i + len_format + 1], "sc") != 1)
-	    handle_zero(format, lis, pr, ptr);
-	else if (format[pr->i + 1] == '*')
-		handle_star(format, lis, pr, ptr);
-	else
-		handle_width(format, lis, pr, ptr);
-        /*len = ft_len(format[pr->i + len_format + 1], lis);
-        pr->c = pr->c + ft_putspace(format_int, len, ' ');
-        pr->c = pr->c + ptr[check_tab(format[pr->i + len_format + 1])](lis->ap);
-        pr->i = pr->i + len_format + 1;*/
-    }
+	handle_width(fmt, lis, pr, ptr);
 }
 
-int handle_percent(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
+void handle_percent(const char *format, s_list *lis, s_print *pr, int(*ptr[9])(va_list))
 {
-    int a = 0;
-    int len = 0;
-    int add;
+    int len;
 
-    if (corresponding(format[pr->i + 1], ".*-0123456789") == 1)
-    {
+    if (corresponding(format[pr->i +1], "*") == 1)
+	    handle_star(format, lis, pr, ptr);
+    else if (corresponding(format[pr->i + 1], ".-0123456789") == 1)
         formating(format, lis, pr, ptr);
-        return (0);
-    }
-    if (check_tab(format[pr->i + 1]) != -1)
+    else if (check_tab(format[pr->i + 1]) != -1)
     {
         len = va_arg(lis->pa, int);
         pr->c += ptr[check_tab(format[pr->i + 1])](lis->ap);
         pr->i++;
-        return (0);
     }
-    if (check_tab(format[pr->i + 1]) == -1
-    && corresponding(check_tab(format[pr->i + 1]), "-0123456789") != 1)
+    else if (check_tab(format[pr->i + 1]) == -1
+    && corresponding(check_tab(format[pr->i + 1]), ".*-0123456789") != 1)
     {
         pr->c++;
         ft_putchar('%');
-        return (0);
     }
 }
 
@@ -582,6 +597,8 @@ int ft_printf(const char *format, ...)
     s_print *pr = malloc(sizeof(s_print));
     s_list *lis = malloc(sizeof(s_list));
 
+    pr = malloc(sizeof(s_print));
+    lis = malloc(sizeof(s_list));
     pr->i = 0;
     pr->c = 0;
     int(*ptr[9])(va_list);
@@ -591,9 +608,7 @@ int ft_printf(const char *format, ...)
     while (format[pr->i] != '\0')
     {
         if (format[pr->i] == '%')
-	{
             handle_percent(format, lis, pr, ptr);
-        }
        	else 
 	{
             pr->c++;
@@ -611,7 +626,7 @@ int	main()
 	int	a;
 	int	b;
 
-	a = ft_printf("test : salut%03i mec %%\n", 12);
-	b = printf("test : salut%03i mec %%\n", 12);
+	a = ft_printf("test : salut%-*i mec %%\n", 5, 12);
+	b = printf("test : salut%-*i mec %%\n", 5, 12);
 	printf("%d\n%d\n", a, b);
 }
