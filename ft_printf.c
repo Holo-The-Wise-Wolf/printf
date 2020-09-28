@@ -5,6 +5,7 @@
 typedef struct s_printf 
 {  
 	int		star;
+	int		star_int;
 	int		c;
 	int		i;
 	char	*l;
@@ -13,6 +14,16 @@ typedef struct s_printf
 	va_list(pa);
 	int(*ptr[9])(va_list);
 }			s_printf;
+
+void	init_struct(s_printf *pr)
+{
+	pr->star = 0;
+	pr->star_int = 0;
+	pr->c = 0;
+	pr->i = 0;
+    va_start(pr->ap, format);
+    va_start(pr->pa, format);
+}
 
 void	ft_putchar(char c)
 {
@@ -470,15 +481,36 @@ char *get_nbr(const char *str)
     return (output);
 }
 
+void	get_argstar(s_printf *pr)
+{
+	pr->star_int = va_arg(pr->ap, char *);
+	va_arg(pr->pa, char *);
+}
+
+void	dot_string(s_printf *pr, int format_int)
+{
+	int	len;
+
+	pr->cpy = va_arg(pr->ap, char *);
+	va_arg(pr->pa, char *);
+	len = ft_strlen(pr->cpy);
+	pr->c = pr->c + ft_putspace(format_int, len, ' ');
+	pr->c = pr->c + ft_putstrn(pr->cpy, format_int);
+}
+
+void	precision(s_printf *pr, int l_fmt, int len, int format_int)
+{
+	pr->c = pr->c + ft_putspace(format_int, len, '0');
+	pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 2])](pr->ap);
+}
+
 void handle_zerostar(const char *format, s_printf *pr)
 {
-	int star_int;
 	int len;
 
-	star_int = va_arg(pr->ap, int);
-	va_arg(pr->pa, int);
+	get_argstar(pr);
 	len = ft_len(format[pr->i + 3], pr);	
-	pr->c += ft_putspace(star_int, len, '0');
+	pr->c += ft_putspace(pr->star_int, len, '0');
 	pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
 	pr->i += 3;
 }
@@ -500,7 +532,29 @@ void handle_mindot(const char *format, s_printf *pr, int len_format)
 
 void handle_stardot(const char *format, s_printf *pr)
 {
+	int format_int;
+	int l_fmt;
+	int len;
+	char *get_n;
 
+	if (fmt[pr->i + 3] == '*')
+		handle_stardotstar(fmt, pr);
+	else
+	{
+		get_argstar(pr);
+		get_n = get_nbr(&fmt[pr->i + 3]);                                       
+		l_fmt = ft_strlen(get_n);
+		format_int = ft_getnbr(&fmt[pr->i + 3]);
+		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
+		if (fmt[pr->i + l_fmt + 4] == 's')
+			dot_string(pr, format_int);
+		else
+		{	
+			pr->c = pr->c + ft_putspace(format_int, len, '0');
+			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
+		}
+		pr->i = pr->i + l_fmt + 3;
+	}
 }
 
 void handle_minstar(const char *format, s_printf *pr)
@@ -542,14 +596,6 @@ void	handle_zero(const char *fmt, s_printf *pr)
 	}
 }
 
-void	dot_string(s_printf *pr, int format_int)
-{
-	pr->cpy = va_arg(pr->ap, char *);
-	va_arg(pr->pa, char *);
-	pr->c = pr->c + ft_putstrn(pr->cpy, format_int);
-}
-
-
 void	handle_dot(const char *fmt, s_printf *pr)
 {
 	int format_int;
@@ -568,9 +614,8 @@ void	handle_dot(const char *fmt, s_printf *pr)
 		if (fmt[pr->i + l_fmt + 2] == 's')
 			dot_string(pr, format_int);
 		else
-		{	
-			pr->c = pr->c + ft_putspace(format_int, len, '0');
-			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 2])](pr->ap);
+		{
+			precision(pf, l_fmt, len, format_int);	
 		}
 		pr->i = pr->i + l_fmt + 2;
 	}
@@ -578,20 +623,19 @@ void	handle_dot(const char *fmt, s_printf *pr)
 
 void	handle_star(const char *format,s_printf *pr)
 {
-	int star_int;
 	int len;
 
 	if (format[pr->i + 2] == '.')
 		handle_stardot(format, pr);
 	else
 	{
-		star_int = va_arg(pr->ap, int);
-		va_arg(pr->pa, int);
+		get_argstar(pr);
 		len = ft_len(format[pr->i + 2], pr);
 		pr->c += ft_putspace(star_int, len, ' ');
 		pr->c += pr->ptr[check_tab(format[pr->i + 2])](pr->ap);
 		pr->i += 2;
 	}
+	pr->star_int = 0;
 }
 
 void handle_minus(const char *fmt, s_printf *pr)
@@ -649,7 +693,6 @@ void	formating(const char *fmt, s_printf *pr)
 	{
 		get_n = get_nbr(&fmt[pr->i + 1]);
 		len_format = ft_strlen(get_n);
-		pr->star = 0;
 		if (fmt[pr->i + 2] == '*')
 			pr->star = 1;
 		else if (get_n[0] == '0' 
@@ -697,10 +740,7 @@ int ft_printf(const char *format, ...)
 	s_printf	*pr;
 
 	pr = malloc(sizeof(s_printf));
-    pr->i = 0;
-    pr->c = 0;
-    va_start(pr->ap, format);
-    va_start(pr->pa, format);	
+    init_struct(pr);
     fill_tab(pr);
     while (format[pr->i] != '\0')
     {
@@ -723,7 +763,7 @@ int	main()
 	int	a;
 	int	b;
 
-	a = ft_printf("test : salut %.18s mec %%\n", "c'est pas sorcier");
-	b = printf("test : salut %.18s mec %%\n", "c'est pas sorcier");
+	a = ft_printf("test : salut %*.3s mec %%\n", "c'est pas sorcier");
+	b = printf("test : salut %*.s mec %%\n", "c'est pas sorcier");
 	printf("%d\n%d\n", a, b);
 }
