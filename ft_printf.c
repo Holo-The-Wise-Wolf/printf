@@ -18,7 +18,7 @@ typedef struct s_printf
 	int(*ptr[9])(va_list);
 }			s_printf;
 
-void	init_struct(const char *format, s_printf *pr)
+void	init_struct(s_printf *pr)
 {
 	pr->star = 0;
 	pr->star_int = 0;
@@ -91,13 +91,6 @@ int		ft_putstrn(const char *src, int n)
 	return (c);
 }
 
-/*
-int	ft_printf_percent(va_list ap)
-{
-	ft_putchar('%');
-	return (1);
-}
-*/
 int	ft_putnbr_hexa(int nbr, char *base)
 {
 	int		nbr_final[100];
@@ -296,69 +289,6 @@ int  ft_getnbr(char const *str)
 	return (number * neg);
 }
 
-/*
-int	findIndex(char *tab, char elem)
-{
-	int index = 0;
-
-	while (tab[index])
-044775	{
-		if (tab[index] == elem)
-			return (index);
-		index++;
-	}
-	return(-1);
-}
-
-
-int	ft_printf(const char *fmt, ...)
-{
-	int (*tabFunction[]) (va_list) = {};
-	char tabIndex[5] = {'.', '-', '0', '*', 0};
-	int (*tabFunction2[8]) (va_list) = {ft_printf_str, ft_printf_nbr, ft_printf_nbr, ft_printf_char, ft_printf_unbr, ft_printf_hexa1, ft_printf_hexa2, ft_printf_ptr};
-	char tabIndex2[9] = {'s', 'd', 'i', 'c', 'u', 'x', 'X', 'p', 0};
-	va_list ap;
-	int i;
-	int tmpIndex;
-	int tmpIndex2;
-	int count;
-
-	i = 0;
-	tmpIndex = 0;
-	tmpIndex2 = 0;
-	count = 0;
-	va_start(ap, fmt);
-	while (fmt[i])
-	{
-		if (fmt[i] == '%' && fmt[i + 1])
-		{
-			if (fmt[i + 1] == '%')
-			{
-				ft_putchar('%');
-				count++;
-			}
-			i++;
-			while (tmpIndex = findIndex(tabIndex, fmt[i]) != -1)
-			{
-				count += (*tabFunction[tmpIndex]) (ap);
-				i++;
-			}
-			tmpIndex2 = findIndex(tabIndex2, fmt[i]);
-			if (tmpIndex2 != -1)
-				count += (*tabFunction2[tmpIndex2]) (ap);
-		}
-		else if (fmt[i] != '%')
-		{
-			write(1, &fmt[i], 1);
-			count++;
-		}
-		i++;
-	}
-	va_end(ap);
-	return (count);
-}
-*/
-
 void fill_tab(s_printf *pr)
 {
 	pr->ptr[0] = &ft_printf_str;
@@ -369,8 +299,8 @@ void fill_tab(s_printf *pr)
 	pr->ptr[5] = &ft_printf_hexa1;
 	pr->ptr[6] = &ft_printf_hexa2;
 	pr->ptr[7] = &ft_printf_ptr;
-//	  ptr[8] = &ft_printf_percent;
 }
+
 int	corresponding(char c, char *string)
 {
 	int i;
@@ -499,7 +429,14 @@ void	dot_string(s_printf *pr, int format_int)
 {
 	pr->cpy = va_arg(pr->ap, char *);
 	va_arg(pr->pa, char *);
-	pr->c = pr->c + ft_putstrn(pr->cpy, format_int);
+	if (pr->star_int != '0')
+	{
+		if (format_int < pr->star_int)
+			pr->c = pr->c + ft_putspace(pr->star_int, format_int, ' ');
+		pr->c = pr->c + ft_putstrn(pr->cpy, format_int);
+	}
+	else
+		pr->c = pr->c + ft_putstrn(pr->cpy, format_int);
 }
 
 void	precisionstar(const char *fmt, s_printf *pr, int l_fmt, int fmt_int)
@@ -582,6 +519,7 @@ void	handle_precision(const char *fmt, s_printf *pr, int l_fmt, int fmt_int)
 		else
 			precision(fmt, pr, l_fmt, fmt_int);
 	}
+	pr->star_int2 = 0;
 }
 
 void handle_zerostar(const char *format, s_printf *pr)
@@ -593,6 +531,7 @@ void handle_zerostar(const char *format, s_printf *pr)
 	pr->c += ft_putspace(pr->star_int, len, '0');
 	pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
 	pr->i += 3;
+	pr->star_int = 0;
 }
 
 void handle_stardotstar(const char *format, s_printf *pr)
@@ -603,6 +542,26 @@ void handle_stardotstar(const char *format, s_printf *pr)
 void handle_dotstar(const char *format, s_printf *pr)
 {
 
+}
+
+void	stardot(const char *fmt, s_printf *pr, int l_fmt, int fmt_int)
+{
+	int len;
+	int res;
+
+	len = ft_len(fmt[pr->i + l_fmt + 3], pr);
+	if (fmt_int < pr->star_int)
+	{
+		pr->c = pr->c + ft_putspace(pr->star_int, fmt_int, ' ');
+		res = pr->star_int - (pr->star_int - fmt_int);
+		pr->c = pr->c + ft_putspace(res, len, '0');
+		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
+	}
+	else
+	{
+		pr->c = pr->c + ft_putspace(pr->star_int, len, '0');
+		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
+	}
 }
 
 void handle_minstardot(const char *format, s_printf *pr)
@@ -619,7 +578,6 @@ void handle_stardot(const char *fmt, s_printf *pr)
 {
 	int format_int;
 	int l_fmt;
-	int len;
 	char *get_n;
 
 	if (fmt[pr->i + 3] == '*')
@@ -630,15 +588,12 @@ void handle_stardot(const char *fmt, s_printf *pr)
 		get_n = get_nbr(&fmt[pr->i + 3]);
 		l_fmt = ft_strlen(get_n);
 		format_int = ft_getnbr(&fmt[pr->i + 3]);
-		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
 		if (fmt[pr->i + l_fmt + 3] == 's')
 			dot_string(pr, format_int);
 		else
-		{
-			pr->c = pr->c + ft_putspace(format_int, len, '0');
-			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
-		}
+			stardot(fmt, pr, l_fmt, format_int);
 		pr->i = pr->i + l_fmt + 3;
+		pr->star_int = 0;
 	}
 }
 
@@ -834,7 +789,7 @@ int ft_printf(const char *format, ...)
 	pr = malloc(sizeof(s_printf));
 	va_start(pr->ap, format);
 	va_start(pr->pa, format);
-	init_struct(format, pr);
+	init_struct(pr);
 	fill_tab(pr);
 	while (format[pr->i] != '\0')
 	{
@@ -857,7 +812,7 @@ int	main()
 	int	a;
 	int	b;
 
-	a = ft_printf("test : salut %8.10s mec %%\n", "c'est pas sorcier");
-	b = printf("test : salut %8.10s mec %%\n", "c'est pas sorcier");
+	a = ft_printf("test : salut %*.5i mec %%\n", 7, 15);
+	b = printf("test : salut %*.5i mec %%\n", 7, 15);
 	printf("%d\n%d\n", a, b);
 }
