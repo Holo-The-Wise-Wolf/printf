@@ -1,0 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_len.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/09 00:29:46 by lmoi              #+#    #+#             */
+/*   Updated: 2020/10/09 02:48:42 by lmoi             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+int	len_nbr(int nb)
+{
+	int	i;
+
+	i = 0;
+	if (nb == 0)
+		return (1);
+	if (nb < 0)
+	{
+		nb = nb * -1;
+		i++;
+	}
+	while (nb > 0)
+	{
+		nb = nb / 10;
+		i++;
+	}
+	return (i);
+}
+
+int	len_base(unsigned int nb, int b)
+{
+	int	i;
+
+	i = 0;
+	while (nb > 0)
+	{
+		nb = nb / b;
+		i++;
+	}
+	return (i);
+}
+
+int	ft_len(char c, t_printf *pr)
+{
+	if (corresponding(c, "di") == 1)
+		return (len_nbr(va_arg(pr->pa, int)));
+	if (corresponding(c, "xX"))
+		return (len_base(va_arg(pr->pa, unsigned int), 16));
+	if (corresponding(c, "p"))
+		return (len_base(va_arg(pr->pa, unsigned int), 16) + 2);
+	if (corresponding(c, "s") == 1)
+		return (ft_strlen(va_arg(pr->pa, char *)));
+	if (corresponding(c, "c%") == 1)
+		return (1);
+	else
+		return (0);
+}
