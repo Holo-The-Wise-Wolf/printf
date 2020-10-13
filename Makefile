@@ -1,6 +1,6 @@
 NAME = libftprintf.a
 
-SRCS = ft_printf.c check.c ft_putspace.c handle_minus.c handle_minus2.c handle_star.c handle_zero.c precision.c print_nbr.c ft_len.c libft.c period_s.c print.c putnbr.c
+SRCS = ft_printf.c check.c ft_putspace.c handle_minus.c handle_minus2.c handle_star.c handle_zero.c precision.c print_nbr.c ft_len.c libft.c period_s.c print.c putnbr.c get.c handle_width.c
 
 INCLUDES	= ft_printf.h
 
@@ -17,7 +17,7 @@ CFLAGS	= -Wall -Wextra -Werror
 .c.o:
 			${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
-${NAME}:	${OBJS} ${INCLUDES}
+${NAME}:	${OBJS}
 			${ARRC} ${NAME} ${OBJS}
 			ranlib ${NAME}
 all:		${NAME}
