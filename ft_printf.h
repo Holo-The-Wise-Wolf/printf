@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 20:36:04 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/13 18:08:47 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 23:36:49 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void			fill_tab(t_printf *pr);
 int				corresponding(char c, char *string);
 int				check_tab(const char comp);
 int				len_nbr(int nb, t_printf *pr);
-int				len_base(unsigned int nb, int b);
+int				len_base(unsigned int nb, int b, t_printf *pr);
 int				ft_putspace(int len1, int len2, char l);
 int				ft_len(char c, t_printf *pr);
 char			*get_nbr(const char *str);

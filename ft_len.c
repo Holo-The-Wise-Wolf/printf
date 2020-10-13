@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 00:29:46 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/13 23:00:53 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 23:36:53 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,16 @@ int	len_nbr(int nb, t_printf *pr)
 	return (i);
 }
 
-int	len_base(unsigned int nb, int b)
+int	len_base(unsigned int nb, int b, t_printf *pr)
 {
 	int	i;
 
 	i = 0;
+	if (nb == 0)
+	{
+		pr->preczero = 1;
+		return (1);
+	}
 	while (nb > 0)
 	{
 		nb = nb / b;

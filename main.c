@@ -6,7 +6,7 @@ int	main()
 	int	a;
 	int	b;
 
-	a = ft_printf("%1.d\n", 0);
-	b = printf("%1.d\n", 0);
+	a = ft_printf("%x\n", 0);
+	b = printf("%x\n", 0);
 	printf("%d\n%d\n", a, b);
 }
