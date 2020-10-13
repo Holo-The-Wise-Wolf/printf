@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/07 20:36:04 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/08 17:32:17 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 18:08:47 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct	s_printf
 	int		c;
 	int		i;
 	int		temp;
+	int		preczero;
 	char	*cpy;
 	va_list	(ap);
 	va_list	(pa);
@@ -53,7 +54,7 @@ int				ft_getnbr(char const *str);
 void			fill_tab(t_printf *pr);
 int				corresponding(char c, char *string);
 int				check_tab(const char comp);
-int				len_nbr(int nb);
+int				len_nbr(int nb, t_printf *pr);
 int				len_base(unsigned int nb, int b);
 int				ft_putspace(int len1, int len2, char l);
 int				ft_len(char c, t_printf *pr);
