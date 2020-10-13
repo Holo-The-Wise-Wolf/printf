@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 01:00:10 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/09 02:48:03 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 18:09:29 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	init_struct(t_printf *pr)
 	pr->c = 0;
 	pr->i = 0;
 	pr->temp = 0;
+	pr->preczero = 0;
 }
 
 void	fill_tab(t_printf *pr)
@@ -52,9 +53,10 @@ void	formating(const char *fmt, t_printf *pr)
 			handle_zero(fmt, pr);
 		else if (fmt[pr->i + 1] == '-')
 			handle_minus(fmt, pr);
-		else if (check_tab(fmt[pr->i + len_format + 1] == -1)
+		else if (check_tab(fmt[pr->i + len_format + 1]) == -1
 			&& fmt[pr->i + len_format + 1] != '.')
 		{
+			ft_printf("lul");
 			pr->c++;
 			ft_putchar('%');
 		}

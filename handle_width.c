@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/08 23:01:47 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/09 01:26:13 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 18:01:48 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	len = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
 	if (fmt_int2 < fmt_int)
 	{
+		if (fmt_int2 == 0)
+			fmt_int2 = 1;
 		pr->c = pr->c + ft_putspace(fmt_int, fmt_int2, ' ');
 		fmt_int = fmt_int - (fmt_int - fmt_int2);
 		pr->c = pr->c + ft_putspace(fmt_int, len, '0');

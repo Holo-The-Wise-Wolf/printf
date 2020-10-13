@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 00:55:56 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/09 01:49:22 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 18:13:06 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	handle_dot(const char *fmt, t_printf *pr)
 		l_fmt = ft_strlen(get_n);
 		format_int = ft_getnbr(&fmt[pr->i + 2]);
 		len = ft_len(fmt[pr->i + l_fmt + 2], pr);
-		if (fmt[pr->i + l_fmt + 2] == 's')
+		if (corresponding(fmt[pr->i + 2], "di0") == 1 && pr->preczero == 1)
+			pr->preczero = 0;
+		else if (fmt[pr->i + l_fmt + 2] == 's')
 			dot_string(pr, format_int, 0);
 		else
 		{

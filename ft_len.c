@@ -6,19 +6,22 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 00:29:46 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/09 02:48:42 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 18:13:42 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	len_nbr(int nb)
+int	len_nbr(int nb, t_printf *pr)
 {
 	int	i;
 
 	i = 0;
 	if (nb == 0)
+	{
+		pr->preczero = 1;
 		return (1);
+	}
 	if (nb < 0)
 	{
 		nb = nb * -1;
@@ -48,7 +51,7 @@ int	len_base(unsigned int nb, int b)
 int	ft_len(char c, t_printf *pr)
 {
 	if (corresponding(c, "di") == 1)
-		return (len_nbr(va_arg(pr->pa, int)));
+		return (len_nbr(va_arg(pr->pa, int), pr));
 	if (corresponding(c, "xX"))
 		return (len_base(va_arg(pr->pa, unsigned int), 16));
 	if (corresponding(c, "p"))

@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 00:52:26 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/09 01:41:01 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/10 17:34:16 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,15 @@ void	stardot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	int	len;
 	int	res;
 
-	len = ft_len(fmt[pr->i + l_fmt + 3], pr);
-	if (fmt_int < pr->star_int)
+	if (pr->star_int < 0)
 	{
+		pr->star_int = pr->star_int * (-1);
+		l_fmt = l_fmt - 1;
+		minstardot(fmt, pr, l_fmt, fmt_int);
+	}
+	else if (fmt_int < pr->star_int)
+	{
+		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
 		pr->c = pr->c + ft_putspace(pr->star_int, fmt_int, ' ');
 		res = pr->star_int - (pr->star_int - fmt_int);
 		pr->c = pr->c + ft_putspace(res, len, '0');
@@ -56,6 +62,7 @@ void	stardot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	}
 	else
 	{
+		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
 		pr->c = pr->c + ft_putspace(pr->star_int, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
 	}
@@ -94,8 +101,16 @@ void	handle_star(const char *format, t_printf *pr)
 	{
 		get_argstar(pr);
 		len = ft_len(format[pr->i + 2], pr);
-		pr->c += ft_putspace(pr->star_int, len, ' ');
-		pr->c += pr->ptr[check_tab(format[pr->i + 2])](pr->ap);
+		if (pr->star_int < 0)
+		{
+			pr->c += pr->ptr[check_tab(format[pr->i + 2])](pr->ap);
+			pr->c += ft_putspace(pr->star_int * (-1), len, ' ');
+		}
+		else
+		{
+			pr->c += ft_putspace(pr->star_int, len, ' ');
+			pr->c += pr->ptr[check_tab(format[pr->i + 2])](pr->ap);
+		}
 		pr->i += 2;
 	}
 	pr->star_int = 0;

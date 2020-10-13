@@ -6,13 +6,13 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 00:16:37 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/09 01:44:12 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/09 19:44:09 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_putnbr_hexa(int nbr, char *base)
+int		ft_putnbr_hexa(int nbr, char *base)
 {
 	int				nbr_final[100];
 	unsigned int	unbr;
@@ -33,7 +33,7 @@ int	ft_putnbr_hexa(int nbr, char *base)
 	return (count);
 }
 
-int	ft_putnbr_ptr(long int nbr, char *base)
+int		ft_putnbr_ptr(long int nbr, char *base)
 {
 	int					nbr_final[100];
 	unsigned long int	unbr;
@@ -52,4 +52,23 @@ int	ft_putnbr_ptr(long int nbr, char *base)
 	while (--i >= 0)
 		ft_putchar(base[nbr_final[i]]);
 	return (count);
+}
+
+void	ft_putnbr(long int x)
+{
+	if (x < 0)
+	{
+		x = -x;
+		write(1, "-", 1);
+	}
+	if (x > 9)
+		ft_putnbr(x / 10);
+	write(1, &"0123456789"[x % 10], 1);
+}
+
+void	ft_putunbr(unsigned int x)
+{
+	if (x > 9)
+		ft_putnbr(x / 10);
+	write(1, &"0123456789"[x % 10], 1);
 }
