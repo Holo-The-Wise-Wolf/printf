@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 00:16:37 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/09 19:44:09 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/13 23:26:34 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,24 @@ int		ft_putnbr_hexa(int nbr, char *base)
 
 	i = 0;
 	unbr = nbr;
-	while (unbr)
+	if(nbr == 0)
 	{
-		nbr_final[i] = unbr % 16;
-		unbr = unbr / 16;
-		i++;
+		ft_putchar('0');
+		return (1);
 	}
-	count = i;
-	while (--i >= 0)
-		ft_putchar(base[nbr_final[i]]);
-	return (count);
+	else
+	{
+		while (unbr)
+		{
+			nbr_final[i] = unbr % 16;
+			unbr = unbr / 16;
+			i++;
+		}
+		count = i;
+		while (--i >= 0)
+			ft_putchar(base[nbr_final[i]]);
+		return (count);
+	}
 }
 
 int		ft_putnbr_ptr(long int nbr, char *base)
