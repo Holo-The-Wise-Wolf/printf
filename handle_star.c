@@ -25,10 +25,10 @@ void	handle_stardotstar(const char *fmt, t_printf *pr)
 		len = ft_len(fmt[pr->i + 4], pr);
 		if (pr->star_int > pr->star_int2)
 		{
-			pr->temp = pr->star_int - (pr->star_int - pr->star_int2);
+			pr->temp = len > pr->star_int2 ? len : pr->star_int2;
 			pr->c = pr->c + ft_putspace(pr->star_int, pr->temp + pr->min, ' ');
 			int_neg(pr);
-			pr->c = pr->c + ft_putspace(pr->temp, len, '0');
+			pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
 			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + 4])](pr->ap);
 		}
 		else
