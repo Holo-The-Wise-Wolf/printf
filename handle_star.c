@@ -19,7 +19,7 @@ void	handle_stardotstar(const char *fmt, t_printf *pr)
 	get_argstar(pr);
 	get_argstar2(pr);
 	if (fmt[pr->i + 4] == 's')
-		dot_stringstar(pr, 0);
+		dot_stringstar(pr, pr->star_int > 0 ? 0 : 1);
 	else
 	{
 		len = ft_len(fmt[pr->i + 4], pr);

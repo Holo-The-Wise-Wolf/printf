@@ -63,7 +63,7 @@ void	dot_stringstar(t_printf *pr, int min)
 	if (min == 1)
 	{
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
-		pr->c = pr->c + ft_putspace(pr->star_int, target, ' ');
+		pr->c = pr->c + ft_putspace(pr->star_int * (-1), target, ' ');
 	}
 	else
 	{
