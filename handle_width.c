@@ -74,25 +74,16 @@ void	precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 void	h_precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 {
 	int		l_fmt2;
-	int		fmt_int2;
 	char	*get_n;
 
 	get_n = get_nbr(&fmt[pr->i + l_fmt + 2]);
 	l_fmt2 = ft_strlen(get_n);
-	fmt_int2 = ft_getnbr(&fmt[pr->i + l_fmt + 2]);
 	if (fmt[pr->i + l_fmt + 2] == '*')
 		precstar(fmt, pr, l_fmt, fmt_int);
 	else
 	{
 		if (fmt[pr->i + l_fmt + l_fmt2 + 2] == 's')
-		{
-			pr->cpy = va_arg(pr->ap, char *);
-			va_arg(pr->pa, char *);
-			if (fmt_int2 < fmt_int)
-				pr->c = pr->c + ft_putspace(fmt_int, fmt_int2, ' ');
-			pr->c = pr->c + ft_putstrn(pr->cpy, fmt_int2);
-			pr->i = pr->i + l_fmt + l_fmt2 + 2;
-		}
+		    prec_s(fmt, pr, fmt_int, l_fmt);
 		else
 			precis(fmt, pr, l_fmt, fmt_int);
 	}

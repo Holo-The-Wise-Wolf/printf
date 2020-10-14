@@ -27,6 +27,7 @@ typedef struct	s_printf
 	int		temp;
 	int		preczero;
 	int     min;
+	int     len;
 	char	*cpy;
 	va_list	(ap);
 	va_list	(pa);
@@ -34,6 +35,7 @@ typedef struct	s_printf
 }				t_printf;
 
 int				ft_printf(const char *format, ...);
+void            prec_s(const char *fmt, t_printf *pr, int fmt_int, int l_fmt);
 int 	        int_neg(t_printf *pr);
 void			init_struct(t_printf *pr);
 void			ft_putchar(char c);

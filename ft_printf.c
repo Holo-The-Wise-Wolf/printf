@@ -22,6 +22,7 @@ void	init_struct(t_printf *pr)
 	pr->temp = 0;
 	pr->preczero = 0;
 	pr->min = 0;
+	pr->len = -1;
 }
 
 void	fill_tab(t_printf *pr)
