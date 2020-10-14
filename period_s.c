@@ -30,18 +30,20 @@ void	star(t_printf *pr, int format_int, int min)
 
 void	dot_stringstar(t_printf *pr, int min)
 {
+    int len;
+    int target;
+
 	pr->cpy = va_arg(pr->ap, char *);
-	va_arg(pr->pa, char *);
+	len = ft_strlen(va_arg(pr->pa, char *));
+	target = pr->star_int2 > len ? len : pr->star_int2;
 	if (min == 1)
 	{
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
-		if (pr->star_int > pr->star_int2)
-			pr->c = pr->c + ft_putspace(pr->star_int, pr->star_int2, ' ');
+		pr->c = pr->c + ft_putspace(pr->star_int, target, ' ');
 	}
 	else
 	{
-		if (pr->star_int > pr->star_int2)
-			pr->c = pr->c + ft_putspace(pr->star_int, pr->star_int2, ' ');
+	    pr->c = pr->c + ft_putspace(pr->star_int, target, ' ');
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
 	}
 }
