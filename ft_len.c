@@ -19,6 +19,7 @@ int	len_nbr(int nb, t_printf *pr)
 	i = 0;
 	if (nb == 0)
 	{
+	    //ft_printf("lul");
 		pr->preczero = 1;
 		return (1);
 	}

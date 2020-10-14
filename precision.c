@@ -22,11 +22,11 @@ void	handle_dot(const char *fmt, t_printf *pr)
     get_n = get_nbr(&fmt[pr->i + 2]);
     l_fmt = ft_strlen(get_n);
     format_int = ft_getnbr(&fmt[pr->i + 2]);
-    len = ft_len(fmt[pr->i + l_fmt + 2], pr);
 	if (fmt[pr->i + 2] == '*')
-		handle_zerostar(fmt, pr, len);
+		handle_zerostar(fmt, pr);
 	else
 	{
+        len = ft_len(fmt[pr->i + l_fmt + 2], pr);
 		if (corresponding(fmt[pr->i + 2], "dixXu0") == 1 && pr->preczero == 1)
 			pr->preczero = 0;
 		else if (fmt[pr->i + l_fmt + 2] == 's')

@@ -20,10 +20,9 @@ void	precstar(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	len = ft_len(fmt[pr->i + l_fmt + 3], pr);
 	if (fmt[pr->i + l_fmt + 3] == 's')
 	{
+	    pr->temp = len > pr->star_int2 ? len : pr->star_int2;
 		pr->cpy = va_arg(pr->ap, char *);
-		va_arg(pr->pa, char *);
-		if (pr->star_int2 < fmt_int)
-			pr->c = pr->c + ft_putspace(fmt_int, pr->star_int2, ' ');
+		pr->c = pr->c + ft_putspace(fmt_int, pr->temp, ' ');
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
 	}
 	else if (pr->star_int2 < fmt_int)

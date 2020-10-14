@@ -27,7 +27,7 @@ typedef struct	s_printf
 	int		temp;
 	int		preczero;
 	int     min;
-	int     len;
+	int     starzero;
 	char	*cpy;
 	va_list	(ap);
 	va_list	(pa);
@@ -72,7 +72,7 @@ void			precstar(const char *fmt, t_printf *pr, int l_fmt, int fmt_int);
 void			precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int);
 void			h_precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int);
 void			handle_minstardotstar(const char *fmt, t_printf *pr);
-void			handle_zerostar(const char *format, t_printf *pr, int len);
+void			handle_zerostar(const char *format, t_printf *pr);
 void			mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int);
 void			h_mindotstar(const char *fmt, t_printf *pr, int l_fmt, int f_i);
 void			handle_stardotstar(const char *fmt, t_printf *pr);

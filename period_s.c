@@ -39,8 +39,8 @@ void	star(t_printf *pr, int format_int, int min, int len)
 {
     int target;
 
-    target = pr->star_int2 > len ? len : pr->star_int2;
-	if (min == 1)
+    target = pr->star_int2 < len ? len : pr->star_int2;
+    if (min == 1)
 	{
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
 		pr->c = pr->c + ft_putspace(format_int, target, ' ');
@@ -80,8 +80,6 @@ void	dot_string(t_printf *pr, int format_int, int min, int len)
 	if (pr->star_int != 0)
 	{
 		target = format_int > len ? len : format_int;
-		if (pr->cpy == NULL)
-			target = 0;
 		if (min == 1)
 		{
 			pr->c = pr->c + ft_putstrn(pr->cpy, format_int);
@@ -95,8 +93,8 @@ void	dot_string(t_printf *pr, int format_int, int min, int len)
 	}
 	else if (pr->star_int2 != 0)
 		star(pr, format_int, min, len);
+	else if (pr->starzero == 1)
+	    pr->starzero = 0;
 	else
-	{
-		pr->c += ft_putstrn(pr->cpy, format_int);
-	}
+        pr->c = pr->c + ft_putstrn(pr->cpy, format_int);
 }
