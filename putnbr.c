@@ -67,7 +67,7 @@ void	ft_putnbr(long int x)
 	if (x < 0)
 	{
 		x = -x;
-		write(1, "-", 1);
+	//	write(1, "-", 1);
 	}
 	if (x > 9)
 		ft_putnbr(x / 10);

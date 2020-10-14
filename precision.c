@@ -33,6 +33,7 @@ void	handle_dot(const char *fmt, t_printf *pr)
 			dot_string(pr, format_int, 0);
 		else
 		{
+		    int_neg(pr);
 			pr->c = pr->c + ft_putspace(format_int, len, '0');
 			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 2])](pr->ap);
 		}

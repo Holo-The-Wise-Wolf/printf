@@ -21,6 +21,7 @@ void	init_struct(t_printf *pr)
 	pr->i = 0;
 	pr->temp = 0;
 	pr->preczero = 0;
+	pr->min = 0;
 }
 
 void	fill_tab(t_printf *pr)
@@ -79,7 +80,8 @@ void	handle_percent(const char *format, t_printf *pr)
 	}
 	else if (check_tab(format[pr->i + 1]) != -1)
 	{
-		va_arg(pr->pa, int);
+	    ft_len(format[pr->i + 1], pr);
+	    int_neg(pr);
 		pr->c += pr->ptr[check_tab(format[pr->i + 1])](pr->ap);
 		pr->i++;
 	}

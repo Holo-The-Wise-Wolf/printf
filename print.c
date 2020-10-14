@@ -18,6 +18,11 @@ int	ft_printf_ptr(va_list ap)
 	int			count;
 
 	ptr = va_arg(ap, long int);
+	if (ptr == 0)
+	{
+	    ft_putstr_fd("(nil)", 1);
+	    return (5);
+	}
 	write(1, "0x", 2);
 	count = 2;
 	if (ptr == 0)

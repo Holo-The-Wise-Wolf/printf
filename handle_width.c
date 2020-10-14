@@ -28,9 +28,10 @@ void	precstar(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	}
 	else if (pr->star_int2 < fmt_int)
 	{
-		pr->c = pr->c + ft_putspace(fmt_int, pr->star_int2, ' ');
-		fmt_int = fmt_int - (fmt_int - pr->star_int2);
-		pr->c = pr->c + ft_putspace(fmt_int, len, '0');
+        pr->temp = fmt_int - (fmt_int - pr->star_int2);
+		pr->c = pr->c + ft_putspace(fmt_int, pr->temp + pr->min, ' ');
+		int_neg(pr);
+		pr->c = pr->c + ft_putspace(pr->temp, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
 	}
 	else
@@ -54,15 +55,15 @@ void	precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	len = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
 	if (fmt_int2 < fmt_int)
 	{
-		if (fmt_int2 == 0)
-			fmt_int2 = 1;
-		pr->c = pr->c + ft_putspace(fmt_int, fmt_int2, ' ');
-		fmt_int = fmt_int - (fmt_int - fmt_int2);
-		pr->c = pr->c + ft_putspace(fmt_int, len, '0');
+        pr->temp = fmt_int - (fmt_int - fmt_int2);
+		pr->c = pr->c + ft_putspace(fmt_int, pr->temp + pr->min , ' ');
+		int_neg(pr);
+		pr->c = pr->c + ft_putspace(pr->temp, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
 	}
 	else
 	{
+	    int_neg(pr);
 		pr->c = pr->c + ft_putspace(fmt_int2, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
 	}
@@ -95,6 +96,7 @@ void	h_precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 			precis(fmt, pr, l_fmt, fmt_int);
 	}
 	pr->star_int2 = 0;
+	pr->min = 0;
 }
 
 void	handle_width(const char *fmt, t_printf *pr)
@@ -107,12 +109,13 @@ void	handle_width(const char *fmt, t_printf *pr)
 	get_n = get_nbr(&fmt[pr->i + 1]);
 	len_format = ft_strlen(get_n);
 	format_int = ft_getnbr(&fmt[pr->i + 1]);
-	len = ft_len(fmt[pr->i + len_format + 1], pr);
 	if (fmt[pr->i + len_format + 1] == '.')
 		h_precis(fmt, pr, len_format, format_int);
 	else
 	{
+        len = ft_len(fmt[pr->i + len_format + 1], pr);
 		pr->c = pr->c + ft_putspace(format_int, len, ' ');
+		int_neg(pr);
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + len_format + 1])](pr->ap);
 		pr->i = pr->i + len_format + 1;
 	}

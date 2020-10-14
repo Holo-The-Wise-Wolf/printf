@@ -27,12 +27,14 @@ void	mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	if (fmt_int > fmt_int2)
 	{
 		pr->temp = fmt_int - (fmt_int - fmt_int2);
+		fmt_int2 += int_neg(pr);
 		pr->c = pr->c + ft_putspace(pr->temp, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
 		pr->c = pr->c + ft_putspace(fmt_int, fmt_int2, ' ');
 	}
 	else
 	{
+	    int_neg(pr);
 		pr->c = pr->c + ft_putspace(fmt_int2, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
 	}
@@ -52,12 +54,14 @@ void	h_mindotstar(const char *fmt, t_printf *pr, int l_fmt, int f_i)
 	else if (n > pr->star_int2)
 	{
 		res = n - (n - pr->star_int2);
+		pr->star_int2 += int_neg(pr);
 		pr->c = pr->c + ft_putspace(res, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
 		pr->c = pr->c + ft_putspace(n, pr->star_int2, ' ');
 	}
 	else
 	{
+	    int_neg(pr);
 		pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
 	}
@@ -96,6 +100,7 @@ void	handle_minstar(const char *format, t_printf *pr)
 		star_int = va_arg(pr->ap, int);
 		va_arg(pr->pa, int);
 		len = ft_len(format[pr->i + 3], pr);
+        len += int_neg(pr);
 		pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
 		pr->c += ft_putspace(star_int, len, ' ');
 		pr->i += 3;
@@ -121,6 +126,7 @@ void	handle_minus(const char *fmt, t_printf *pr)
 		else
 		{
 			len = ft_len(fmt[pr->i + len_format + 1], pr);
+			len += int_neg(pr);
 			pr->c += pr->ptr[check_tab(fmt[pr->i + len_format + 1])](pr->ap);
 			pr->c += ft_putspace((format_int * (-1)), len, ' ');
 			pr->i += len_format + 1;

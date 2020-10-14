@@ -22,6 +22,7 @@ void	handle_zerostar(const char *format, t_printf *pr)
 	else
 	{
 		len = ft_len(format[pr->i + 3], pr);
+		len += int_neg(pr);
 		pr->c += ft_putspace(pr->star_int2, len, '0');
 		pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
 	}
@@ -44,6 +45,7 @@ void	handle_zero(const char *fmt, t_printf *pr)
 		l_fmt = ft_strlen(get_n);
 		format_int = ft_getnbr(&fmt[pr->i + 1]);
 		len = ft_len(fmt[pr->i + l_fmt + 1], pr);
+		len += int_neg(pr);
 		pr->c = pr->c + ft_putspace(format_int, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 1])](pr->ap);
 		pr->i = pr->i + l_fmt + 1;

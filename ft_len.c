@@ -6,7 +6,7 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 00:29:46 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/13 23:43:06 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/14 00:36:12 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int	len_nbr(int nb, t_printf *pr)
 	}
 	if (nb < 0)
 	{
+	    pr->min = 1;
+	    //ft_putchar('-');
 		nb = nb * -1;
-		i++;
 	}
 	while (nb > 0)
 	{
@@ -35,19 +36,21 @@ int	len_nbr(int nb, t_printf *pr)
 	return (i);
 }
 
-int	len_base(unsigned int nb, int b, t_printf *pr)
+int	len_base(int nb, int b, t_printf *pr)
 {
-	int	i;
+	int             i;
+	unsigned int    unb;
 
+	unb = nb;
 	i = 0;
-	if (nb == 0)
+	if (unb == 0)
 	{
 		pr->preczero = 1;
 		return (1);
 	}
-	while (nb > 0)
+	while (unb > 0)
 	{
-		nb = nb / b;
+		unb = unb / b;
 		i++;
 	}
 	return (i);
@@ -58,9 +61,9 @@ int	ft_len(char c, t_printf *pr)
 	if (corresponding(c, "diu") == 1)
 		return (len_nbr(va_arg(pr->pa, int), pr));
 	if (corresponding(c, "xX"))
-		return (len_base(va_arg(pr->pa, unsigned int), 16, pr));
+		return (len_base(va_arg(pr->pa, int), 16, pr));
 	if (corresponding(c, "p"))
-		return (len_base(va_arg(pr->pa, unsigned int), 16, pr) + 2);
+		return (len_base(va_arg(pr->pa, int), 16, pr) + 2);
 	if (corresponding(c, "s") == 1)
 		return (ft_strlen(va_arg(pr->pa, char *)));
 	if (corresponding(c, "c%") == 1)

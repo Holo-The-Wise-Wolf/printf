@@ -1,6 +1,6 @@
 NAME = libftprintf.a
 
-SRCS = ft_printf.c check.c ft_putspace.c handle_minus.c handle_minus2.c handle_star.c handle_zero.c precision.c print_nbr.c ft_len.c libft.c period_s.c print.c putnbr.c get.c handle_width.c
+SRCS = ft_printf.c check.c ft_putspace.c handle_minus.c handle_minus2.c handle_star.c handle_zero.c precision.c print_nbr.c ft_len.c libft.c period_s.c print.c putnbr.c get.c handle_width.c int_neg.c
 
 INCLUDES	= ft_printf.h
 

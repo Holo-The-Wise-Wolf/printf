@@ -31,7 +31,7 @@ int	ft_printf_nbr(va_list ap)
 	if (x < 0)
 	{
 		x = -x;
-		write(1, "-", 1);
+		//write(1, "-", 1);
 		count++;
 	}
 	if (x > 9)

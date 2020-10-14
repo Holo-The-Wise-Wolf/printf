@@ -26,6 +26,7 @@ typedef struct	s_printf
 	int		i;
 	int		temp;
 	int		preczero;
+	int     min;
 	char	*cpy;
 	va_list	(ap);
 	va_list	(pa);
@@ -33,6 +34,7 @@ typedef struct	s_printf
 }				t_printf;
 
 int				ft_printf(const char *format, ...);
+int 	        int_neg(t_printf *pr);
 void			init_struct(t_printf *pr);
 void			ft_putchar(char c);
 int				ft_strlen(const char *s);
@@ -55,7 +57,7 @@ void			fill_tab(t_printf *pr);
 int				corresponding(char c, char *string);
 int				check_tab(const char comp);
 int				len_nbr(int nb, t_printf *pr);
-int				len_base(unsigned int nb, int b, t_printf *pr);
+int				len_base(int nb, int b, t_printf *pr);
 int				ft_putspace(int len1, int len2, char l);
 int				ft_len(char c, t_printf *pr);
 char			*get_nbr(const char *str);

@@ -22,7 +22,7 @@ int		ft_getnbr(char const *str)
 	neg = 1;
 	number = 0;
 	if (str == 0)
-		return (0);
+		return (1);
 	while (str[++i] != '\0' && number == 0)
 	{
 		if (str[i] == '-')

@@ -26,12 +26,14 @@ void	handle_stardotstar(const char *fmt, t_printf *pr)
 		if (pr->star_int > pr->star_int2)
 		{
 			pr->temp = pr->star_int - (pr->star_int - pr->star_int2);
-			pr->c = pr->c + ft_putspace(pr->star_int, pr->star_int2, ' ');
+			pr->c = pr->c + ft_putspace(pr->star_int, pr->temp + pr->min, ' ');
+			int_neg(pr);
 			pr->c = pr->c + ft_putspace(pr->temp, len, '0');
 			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + 4])](pr->ap);
 		}
 		else
 		{
+		    int_neg(pr);
 			pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
 			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + 4])](pr->ap);
 		}
@@ -55,14 +57,16 @@ void	stardot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	else if (fmt_int < pr->star_int)
 	{
 		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
-		pr->c = pr->c + ft_putspace(pr->star_int, fmt_int, ' ');
-		res = pr->star_int - (pr->star_int - fmt_int);
+        res = pr->star_int - (pr->star_int - fmt_int);
+		pr->c = pr->c + ft_putspace(pr->star_int, res + pr->min, ' ');
+		int_neg(pr);
 		pr->c = pr->c + ft_putspace(res, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
 	}
 	else
 	{
 		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
+		int_neg(pr);
 		pr->c = pr->c + ft_putspace(pr->star_int, len, '0');
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
 	}
