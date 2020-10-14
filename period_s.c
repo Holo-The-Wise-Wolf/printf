@@ -12,6 +12,8 @@
 
 #include "ft_printf.h"
 
+
+
 void    prec_s(const char *fmt, t_printf *pr, int fmt_int, int l_fmt)
 {
     int		fmt_int2;

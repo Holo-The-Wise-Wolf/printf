@@ -64,7 +64,7 @@ int		ft_putstrn(const char *src, int n)
 	while (src[i])
 		i++;
 	if (n <= 0)
-		return (i);
+		return (0);
 	if (n > i)
 		n = i + 1;
 	while (src[j] && n--)

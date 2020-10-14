@@ -81,7 +81,8 @@ void	h_mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	{
 		get_n = get_nbr(&fmt[pr->i + l_fmt + 2]);
 		l2 = ft_strlen(get_n);
-		if (fmt[pr->i + l_fmt + l2 + 2] == 's') {
+		if (fmt[pr->i + l_fmt + l2 + 2] == 's')
+		{
             len = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
             dot_string(pr, fmt_int, 1, len);
         }

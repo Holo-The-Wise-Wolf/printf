@@ -6,7 +6,7 @@ int	main()
 	int	a;
 	int	b;
 
-	a = ft_printf("%.*s\n", 0, "coucou");
-	b = printf("%.*s\n", 0, "coucou");
+	a = ft_printf("%-7.5s\n", "yolo");
+	b = printf("%-7.5s\n", "yolo");
 	printf("%d\n%d\n", a, b);
 }
