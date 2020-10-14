@@ -25,7 +25,6 @@ int	len_nbr(int nb, t_printf *pr)
 	if (nb < 0)
 	{
 	    pr->min = 1;
-	    //ft_putchar('-');
 		nb = nb * -1;
 	}
 	while (nb > 0)
@@ -62,8 +61,10 @@ int	len_base(int nb, int b, t_printf *pr, int p)
 
 int	ft_len(char c, t_printf *pr)
 {
-	if (corresponding(c, "diu") == 1)
+	if (corresponding(c, "di") == 1)
 		return (len_nbr(va_arg(pr->pa, int), pr));
+	if (corresponding(c, "u") == 1)
+	    return (len_base(va_arg(pr->pa, int), 10, pr, 0));
 	if (corresponding(c, "xX"))
 		return (len_base(va_arg(pr->pa, int), 16, pr, 0));
 	if (corresponding(c, "p"))
