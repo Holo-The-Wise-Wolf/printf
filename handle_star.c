@@ -111,12 +111,14 @@ void	handle_star(const char *format, t_printf *pr)
 		len = ft_len(format[pr->i + 2], pr);
 		if (pr->star_int < 0)
 		{
+		    len += int_neg(pr);
 			pr->c += pr->ptr[check_tab(format[pr->i + 2])](pr->ap);
 			pr->c += ft_putspace(pr->star_int * (-1), len, ' ');
 		}
 		else
 		{
-			pr->c += ft_putspace(pr->star_int, len, ' ');
+			pr->c += ft_putspace(pr->star_int, len + pr->min, ' ');
+            int_neg(pr);
 			pr->c += pr->ptr[check_tab(format[pr->i + 2])](pr->ap);
 		}
 		pr->i += 2;
