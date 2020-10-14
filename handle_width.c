@@ -115,7 +115,7 @@ void	handle_width(const char *fmt, t_printf *pr)
 	else
 	{
         len = ft_len(fmt[pr->i + len_format + 1], pr);
-		pr->c = pr->c + ft_putspace(format_int, len, ' ');
+		pr->c = pr->c + ft_putspace(format_int, len + pr->min, ' ');
 		int_neg(pr);
 		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + len_format + 1])](pr->ap);
 		pr->i = pr->i + len_format + 1;
