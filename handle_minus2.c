@@ -39,6 +39,7 @@ void	handle_minstardot(const char *fmt, t_printf *pr)
 	int		format_int;
 	int		l_fmt;
 	char	*get_n;
+	int     len;
 
 	if (fmt[pr->i + 4] == '*')
 		handle_minstardotstar(fmt, pr);
@@ -49,7 +50,10 @@ void	handle_minstardot(const char *fmt, t_printf *pr)
 		l_fmt = ft_strlen(get_n);
 		format_int = ft_getnbr(&fmt[pr->i + 4]);
 		if (fmt[pr->i + l_fmt + 4] == 's')
-			dot_string(pr, format_int, 1);
+		{
+            len = ft_len(fmt[pr->i + l_fmt + 4], pr);
+            dot_string(pr, format_int, 1, len);
+        }
 		else
 			minstardot(fmt, pr, l_fmt, format_int);
 		pr->i = pr->i + l_fmt + 4;

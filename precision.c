@@ -19,18 +19,18 @@ void	handle_dot(const char *fmt, t_printf *pr)
 	int		len;
 	char	*get_n;
 
+    get_n = get_nbr(&fmt[pr->i + 2]);
+    l_fmt = ft_strlen(get_n);
+    format_int = ft_getnbr(&fmt[pr->i + 2]);
+    len = ft_len(fmt[pr->i + l_fmt + 2], pr);
 	if (fmt[pr->i + 2] == '*')
-		handle_zerostar(fmt, pr);
+		handle_zerostar(fmt, pr, len);
 	else
 	{
-		get_n = get_nbr(&fmt[pr->i + 2]);
-		l_fmt = ft_strlen(get_n);
-		format_int = ft_getnbr(&fmt[pr->i + 2]);
-		len = ft_len(fmt[pr->i + l_fmt + 2], pr);
 		if (corresponding(fmt[pr->i + 2], "dixXu0") == 1 && pr->preczero == 1)
 			pr->preczero = 0;
 		else if (fmt[pr->i + l_fmt + 2] == 's')
-			dot_string(pr, format_int, 0);
+			dot_string(pr, format_int, 0, len);
 		else
 		{
 		    int_neg(pr);

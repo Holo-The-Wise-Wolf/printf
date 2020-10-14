@@ -77,6 +77,7 @@ void	handle_stardot(const char *fmt, t_printf *pr)
 	int		format_int;
 	int		l_fmt;
 	char	*get_n;
+	int     len;
 
 	if (fmt[pr->i + 3] == '*')
 		handle_stardotstar(fmt, pr);
@@ -87,7 +88,10 @@ void	handle_stardot(const char *fmt, t_printf *pr)
 		l_fmt = ft_strlen(get_n);
 		format_int = ft_getnbr(&fmt[pr->i + 3]);
 		if (fmt[pr->i + l_fmt + 3] == 's')
-			dot_string(pr, format_int, 0);
+		{
+            len = ft_len(fmt[pr->i + l_fmt + 3], pr);
+            dot_string(pr, format_int, 0, len);
+        }
 		else
 			stardot(fmt, pr, l_fmt, format_int);
 		pr->i = pr->i + l_fmt + 3;

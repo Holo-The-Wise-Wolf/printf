@@ -50,7 +50,7 @@ void	h_mindotstar(const char *fmt, t_printf *pr, int l_fmt, int f_i)
 	n = f_i * (-1);
 	len = ft_len(fmt[pr->i + l_fmt + 3], pr);
 	if (fmt[pr->i + l_fmt + 3] == 's')
-		dot_string(pr, n, 1);
+		dot_string(pr, n, 1, len);
 	else if (n > pr->star_int2)
 	{
 		res = n - (n - pr->star_int2);
@@ -73,6 +73,7 @@ void	h_mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 {
 	int		l2;
 	char	*get_n;
+    int		len;
 
 	if (fmt[pr->i + l_fmt + 2] == '*')
 		h_mindotstar(fmt, pr, l_fmt, fmt_int);
@@ -80,8 +81,10 @@ void	h_mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	{
 		get_n = get_nbr(&fmt[pr->i + l_fmt + 2]);
 		l2 = ft_strlen(get_n);
-		if (fmt[pr->i + l_fmt + l2 + 2] == 's')
-			dot_string(pr, fmt_int, 1);
+		if (fmt[pr->i + l_fmt + l2 + 2] == 's') {
+            len = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
+            dot_string(pr, fmt_int, 1, len);
+        }
 		else
 			mindot(fmt, pr, l_fmt, fmt_int);
 		pr->i = pr->i + l_fmt + l2 + 2;
