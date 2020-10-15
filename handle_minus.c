@@ -99,6 +99,8 @@ void	handle_minstar(const char *format, t_printf *pr)
 	{
 		star_int = va_arg(pr->ap, int);
 		va_arg(pr->pa, int);
+		if(star_int < 0)
+			star_int = star_int * (-1);
 		len = ft_len(format[pr->i + 3], pr);
         len += int_neg(pr);
 		pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
