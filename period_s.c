@@ -12,7 +12,18 @@
 
 #include "ft_printf.h"
 
+void    nostar_s(const char *fmt, t_printf *pr, int fmt_int, int l_fmt)
+{
+    int fmt_int2;
 
+    pr->cpy = va_arg(pr->ap, char *);
+    fmt_int2 = ft_getnbr(&fmt[pr->i + l_fmt + 2]);
+    pr->temp = pr->temp < fmt_int2 ? pr->temp : fmt_int2;
+    if(fmt[pr->i + 2] == '.')
+        fmt_int = 0;
+    pr->c = pr->c + ft_putstrn(pr->cpy, fmt_int2);
+    pr->c = pr->c + ft_putspace(fmt_int * (-1), pr->temp, ' ');
+}
 
 void    prec_s(const char *fmt, t_printf *pr, int fmt_int, int l_fmt)
 {

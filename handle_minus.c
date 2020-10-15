@@ -24,47 +24,31 @@ void	mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	fmt_int2 = ft_getnbr(&fmt[pr->i + l_fmt + 2]);
 	len = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
 	fmt_int = fmt_int * (-1);
-	if (fmt_int > fmt_int2)
-	{
-		pr->temp = fmt_int - (fmt_int - fmt_int2);
-		fmt_int2 += int_neg(pr);
-		pr->c = pr->c + ft_putspace(pr->temp, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
-		pr->c = pr->c + ft_putspace(fmt_int, fmt_int2, ' ');
-	}
-	else
-	{
-	    int_neg(pr);
-		pr->c = pr->c + ft_putspace(fmt_int2, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
-	}
+	pr->temp = len > fmt_int2 ? len : fmt_int2;
+	pr->temp += int_neg(pr);
+	pr->c = pr->c + ft_putspace(fmt_int2, len, '0');
+	pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
+	pr->c = pr->c + ft_putspace(fmt_int, pr->temp, ' ');
 }
 
-void	h_mindotstar(const char *fmt, t_printf *pr, int l_fmt, int f_i)
-{
-	int	len;
-	int	res;
-	int	n;
+void	h_mindotstar(const char *fmt, t_printf *pr, int l_fmt, int f_i) {
+    int len;
+    int res;
+    int n;
 
-	get_argstar2(pr);
-	n = f_i * (-1);
-	len = ft_len(fmt[pr->i + l_fmt + 3], pr);
-	if (fmt[pr->i + l_fmt + 3] == 's')
-		dot_string(pr, n, 1, len);
-	else if (n > pr->star_int2)
-	{
-		res = n - (n - pr->star_int2);
-		pr->star_int2 += int_neg(pr);
-		pr->c = pr->c + ft_putspace(res, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
-		pr->c = pr->c + ft_putspace(n, pr->star_int2, ' ');
-	}
-	else
-	{
-	    int_neg(pr);
-		pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
-	}
+    get_argstar2(pr);
+    n = f_i * (-1);
+    len = ft_len(fmt[pr->i + l_fmt + 3], pr);
+    if (fmt[pr->i + l_fmt + 3] == 's')
+        dot_string(pr, n, 1, len);
+    else
+    {
+        res = len > pr->star_int2 ? len : pr->star_int2;
+        res += int_neg(pr);
+        pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
+        pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
+        pr->c = pr->c + ft_putspace(n, res, ' ');
+    }
 	pr->i = pr->i + l_fmt + 3;
 	pr->star_int2 = 0;
 }
@@ -73,7 +57,6 @@ void	h_mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 {
 	int		l2;
 	char	*get_n;
-    int		len;
 
 	if (fmt[pr->i + l_fmt + 2] == '*')
 		h_mindotstar(fmt, pr, l_fmt, fmt_int);
@@ -83,8 +66,8 @@ void	h_mindot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 		l2 = ft_strlen(get_n);
 		if (fmt[pr->i + l_fmt + l2 + 2] == 's')
 		{
-            len = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
-            dot_string(pr, fmt_int, 1, len);
+            pr->temp = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
+            nostar_s(fmt, pr, fmt_int, l_fmt);
         }
 		else
 			mindot(fmt, pr, l_fmt, fmt_int);

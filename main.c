@@ -6,7 +6,7 @@ int	main()
 	int	a;
 	int	b;
 
-	a = ft_printf("%-7.5s\n", "yolo");
-	b = printf("%-7.5s\n", "yolo");
+	a = ft_printf("%-8.3i", 8375);
+	b = printf("%-8.3i", 8375);
 	printf("%d\n%d\n", a, b);
 }
