@@ -25,20 +25,14 @@ void	precstar(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 		pr->c = pr->c + ft_putspace(fmt_int, pr->temp, ' ');
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
 	}
-	else if (pr->star_int2 < fmt_int)
-	{
-	    pr->temp = len > pr->star_int2 ? len : pr->star_int2;
-		pr->c = pr->c + ft_putspace(fmt_int, pr->temp + pr->min, ' ');
-		int_neg(pr);
-		pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
-	}
 	else
 	{
-	    int_neg(pr);
-		pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
-	}
+        pr->temp = len > pr->star_int2 ? len : pr->star_int2;
+        pr->c += ft_putspace(fmt_int, pr->temp + pr->min, ' ');
+        int_neg(pr);
+        pr->c += ft_putspace(pr->star_int2, len, '0');
+        pr->c += pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
+    }
 	pr->i = pr->i + l_fmt + 3;
 }
 
@@ -53,20 +47,17 @@ void	precis(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 	l2 = ft_strlen(get_n);
 	fmt_int2 = ft_getnbr(&fmt[pr->i + l_fmt + 2]);
 	len = ft_len(fmt[pr->i + l_fmt + l2 + 2], pr);
-	if (fmt_int2 < fmt_int)
+	pr->temp = len > fmt_int2 ? len : fmt_int2;
+	pr->c += ft_putspace(fmt_int, pr->temp + pr->min, ' ');
+	int_neg(pr);
+	pr->c += ft_putspace(fmt_int2, len, '0');
+	if (fmt_int2 == 0 && pr->preczero == 1)
 	{
-	    pr->temp = len > fmt_int2 ? len : fmt_int2;
-		pr->c = pr->c + ft_putspace(fmt_int, pr->temp + pr->min, ' ');
-		int_neg(pr);
-		pr->c = pr->c + ft_putspace(fmt_int2, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
-	}
+		preczero(pr);
+        pr->c += ft_putspace(1, 0, ' ');
+    }
 	else
-	{
-	    int_neg(pr);
-		pr->c = pr->c + ft_putspace(fmt_int2, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
-	}
+	    pr->c += pr->ptr[check_tab(fmt[pr->i + l_fmt + l2 + 2])](pr->ap);
 	pr->i = pr->i + l_fmt + l2 + 2;
 }
 

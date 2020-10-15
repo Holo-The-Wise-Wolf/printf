@@ -19,7 +19,10 @@ void	handle_zerostar(const char *format, t_printf *pr)
 	get_argstar2(pr);
 	len = ft_len(format[pr->i + 3], pr);
     if (pr->star_int2 == 0 && pr->preczero == 1)
+    {
         pr->preczero = 0;
+        va_arg(pr->ap, int);
+    }
 	else if (format[pr->i + 3] == 's')
 	{
         pr->starzero = 1;

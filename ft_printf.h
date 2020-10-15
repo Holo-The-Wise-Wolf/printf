@@ -64,6 +64,8 @@ int				len_base(int nb, int b, t_printf *pr, int p);
 int				ft_putspace(int len1, int len2, char l);
 int				ft_len(char c, t_printf *pr);
 char			*get_nbr(const char *str);
+void            preczero(t_printf *pr);
+void            get_argstars(t_printf *pr);
 void			get_argstar(t_printf *pr);
 void			get_argstar2(t_printf *pr);
 void			star(t_printf *pr, int format_int, int min, int len);

@@ -65,27 +65,23 @@ void	handle_minstardotstar(const char *fmt, t_printf *pr)
 {
 	int	len;
 
-	get_argstar(pr);
-	get_argstar2(pr);
+	get_argstars(pr);
 	if (fmt[pr->i + 5] == 's')
 		dot_stringstar(pr, 1);
 	else
 	{
 		len = ft_len(fmt[pr->i + 5], pr);
-		if (pr->star_int > pr->star_int2)
+		pr->temp = len > pr->star_int2 ? len : pr->star_int2;
+		int_neg(pr);
+		pr->c = pr->c + ft_putspace(pr->temp, len, '0');
+		if (pr->star_int2 == 0 && pr->preczero == 1)
 		{
-			pr->temp = pr->star_int - (pr->star_int - pr->star_int2);
-			int_neg(pr);
-			pr->c = pr->c + ft_putspace(pr->temp, len, '0');
-			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + 5])](pr->ap);
-			pr->c = pr->c + ft_putspace(pr->star_int, pr->temp + pr->min, ' ');
+			preczero(pr);
+			pr->temp = 0;
 		}
 		else
-		{
-		    int_neg(pr);
-			pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
 			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + 5])](pr->ap);
-		}
+		pr->c = pr->c + ft_putspace(pr->star_int, pr->temp + pr->min, ' ');
 	}
 	pr->i = pr->i + 5;
 	pr->star_int = 0;

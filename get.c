@@ -54,6 +54,12 @@ char	*get_nbr(const char *str)
 	return (output);
 }
 
+void    get_argstars(t_printf *pr)
+{
+    get_argstar(pr);
+    get_argstar2(pr);
+}
+
 void	get_argstar(t_printf *pr)
 {
 	pr->star_int = va_arg(pr->ap, int);

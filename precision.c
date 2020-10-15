@@ -12,6 +12,12 @@
 
 #include "ft_printf.h"
 
+void    preczero(t_printf *pr)
+{
+    pr->preczero = 0;
+    va_arg(pr->ap, int);
+}
+
 void	handle_dot(const char *fmt, t_printf *pr)
 {
 	int		format_int;
@@ -28,7 +34,7 @@ void	handle_dot(const char *fmt, t_printf *pr)
 	{
         len = ft_len(fmt[pr->i + l_fmt + 2], pr);
 		if (corresponding(fmt[pr->i + 2], "dixXu0") == 1 && pr->preczero == 1)
-			pr->preczero = 0;
+            preczero(pr);
 		else if (fmt[pr->i + l_fmt + 2] == 's')
 			dot_string(pr, format_int, 0, len);
 		else
