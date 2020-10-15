@@ -33,22 +33,24 @@ int	len_ptr(long int nb)
 int	len_nbr(int nb, t_printf *pr)
 {
 	int	i;
+	long int nbr;
 
+	nbr = nb;
 	i = 0;
-	if (nb == 0)
+	if (nbr == 0)
 	{
 	    //ft_printf("lul");
 		pr->preczero = 1;
 		return (1);
 	}
-	if (nb < 0)
+	if (nbr < 0)
 	{
 	    pr->min = 1;
-		nb = nb * -1;
+		nbr = nbr * -1;
 	}
-	while (nb > 0)
+	while (nbr > 0)
 	{
-		nb = nb / 10;
+		nbr = nbr / 10;
 		i++;
 	}
 	return (i);

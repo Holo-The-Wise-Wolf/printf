@@ -71,6 +71,8 @@ void	handle_minstardotstar(const char *fmt, t_printf *pr)
 	else
 	{
 		len = ft_len(fmt[pr->i + 5], pr);
+		if(pr->star_int < 0)
+			pr->star_int = pr->star_int * (-1);
 		pr->temp = len > pr->star_int2 ? len : pr->star_int2;
 		int_neg(pr);
 		pr->c = pr->c + ft_putspace(pr->temp, len, '0');
