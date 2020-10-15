@@ -58,7 +58,6 @@ void	formating(const char *fmt, t_printf *pr)
 		else if (check_tab(fmt[pr->i + len_format + 1]) == -1
 			&& fmt[pr->i + len_format + 1] != '.')
 		{
-			ft_printf("lul");
 			pr->c++;
 			ft_putchar('%');
 		}

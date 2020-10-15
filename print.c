@@ -15,7 +15,6 @@
 int	ft_printf_ptr(va_list ap)
 {
 	long int	ptr;
-	int			count;
 
 	ptr = va_arg(ap, long int);
 	if (ptr == 0)
@@ -24,16 +23,7 @@ int	ft_printf_ptr(va_list ap)
 	    return (5);
 	}
 	write(1, "0x", 2);
-	count = 2;
-	if (ptr == 0)
-		count++;
-	while (ptr != 0)
-	{
-		count++;
-		ptr /= 10;
-	}
-	ft_putnbr_ptr(ptr, "0123456789abcdef");
-	return (count);
+	return (ft_putnbr_ptr(ptr, "0123456789abcdef") + 2);
 }
 
 int	ft_printf_hexa1(va_list ap)
