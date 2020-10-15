@@ -10,7 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "ft_printf.h"
+
+int	len_ptr(long int nb)
+{
+	int                 i;
+	long unsigned int   unb;
+
+	unb = nb;
+	i = 0;
+	if (unb == 0)
+		return (5);
+	while (unb > 0)
+	{
+		unb = unb / 16;
+		i++;
+	}
+	return (i + 2);
+}
 
 int	len_nbr(int nb, t_printf *pr)
 {
@@ -36,7 +54,7 @@ int	len_nbr(int nb, t_printf *pr)
 	return (i);
 }
 
-int	len_base(int nb, int b, t_printf *pr, int p)
+int	len_base(int nb, int b, t_printf *pr)
 {
 	int             i;
 	unsigned int    unb;
@@ -45,8 +63,6 @@ int	len_base(int nb, int b, t_printf *pr, int p)
 	i = 0;
 	if (unb == 0)
 	{
-	    if (p == 1)
-            return (5);
 		pr->preczero = 1;
 		return (1);
 	}
@@ -55,8 +71,6 @@ int	len_base(int nb, int b, t_printf *pr, int p)
 		unb = unb / b;
 		i++;
 	}
-	if (p == 1)
-	    return (i + 2);
 	return (i);
 }
 
@@ -65,11 +79,11 @@ int	ft_len(char c, t_printf *pr)
 	if (corresponding(c, "di") == 1)
 		return (len_nbr(va_arg(pr->pa, int), pr));
 	if (corresponding(c, "u") == 1)
-	    return (len_base(va_arg(pr->pa, int), 10, pr, 0));
+	    return (len_base(va_arg(pr->pa, int), 10, pr));
 	if (corresponding(c, "xX"))
-		return (len_base(va_arg(pr->pa, int), 16, pr, 0));
+		return (len_base(va_arg(pr->pa, int), 16, pr));
 	if (corresponding(c, "p"))
-		return (len_base(va_arg(pr->pa, int), 16, pr, 1));
+		return (len_ptr(va_arg(pr->pa, long int)));
 	if (corresponding(c, "s") == 1)
 		return (ft_strlen(va_arg(pr->pa, char *)));
 	if (corresponding(c, "c%") == 1)

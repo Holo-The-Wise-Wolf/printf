@@ -19,7 +19,7 @@ int	main()
 	static void *a12;
 
 
-	a = ft_printf("%p%p%p%p%p%p%p%p%p%p%p%p\n",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12);
-	b = printf("%p%p%p%p%p%p%p%p%p%p%p%p\n",&a01,&a02,&a03,&a04,&a05,&a06,&a07,&a08,&a09,&a10,&a11,&a12);
+	a = ft_printf("%-27p\n", &a01);
+	b = printf("%-27p\n",&a01);
 	printf("%d\n%d\n", a, b);
 }
