@@ -28,7 +28,6 @@ typedef struct	s_printf
 	int		preczero;
 	int     min;
 	int     starzero;
-	int     z;
 	char	*cpy;
 	va_list	(ap);
 	va_list	(pa);
