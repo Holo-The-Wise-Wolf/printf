@@ -23,7 +23,7 @@ int		ft_strlen(const char *s)
 
 	i = 0;
 	if(s == NULL)
-		return(0);
+		return (6);
 	while (s[i])
 		i++;
 	return (i);

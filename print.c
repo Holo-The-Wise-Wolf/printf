@@ -52,9 +52,17 @@ int	ft_printf_str(va_list ap)
 	int		count;
 
 	str = va_arg(ap, char *);
-	write(1, str, ft_strlen(str));
-	count = ft_strlen(str);
-	return (count);
+	if(str == NULL)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	else
+	{
+		write(1, str, ft_strlen(str));
+		count = ft_strlen(str);
+		return (count);
+	}
 }
 
 int	ft_printf_char(va_list ap)
