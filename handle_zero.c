@@ -34,7 +34,6 @@ void	handle_zerostar(const char *format, t_printf *pr)
 		}
 		else
 		{
-		//	len = ft_len(format[pr->i + 3], pr);
 			len += int_neg(pr);
 			pr->c += ft_putspace(pr->star_int2, len, '0');
 			pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
