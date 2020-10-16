@@ -19,8 +19,15 @@ void    nostar_s(const char *fmt, t_printf *pr, int fmt_int, int l_fmt)
     pr->cpy = va_arg(pr->ap, char *);
     fmt_int2 = ft_getnbr(&fmt[pr->i + l_fmt + 2]);
     pr->temp = pr->temp < fmt_int2 ? pr->temp : fmt_int2;
+    pr->temp = pr->cpy == NULL ? 0 : pr->temp;
     if(fmt[pr->i + 2] == '.')
         fmt_int = 0;
+    if(pr->cpy == NULL && fmt_int2 >= 6)
+    {
+    	write(1, "(null)", 6);
+    	pr->c += 6;
+    	pr->temp = 6;
+    }
     pr->c = pr->c + ft_putstrn(pr->cpy, fmt_int2);
     pr->c = pr->c + ft_putspace(fmt_int * (-1), pr->temp, ' ');
 }
@@ -36,14 +43,21 @@ void    prec_s(const char *fmt, t_printf *pr, int fmt_int, int l_fmt)
     l_fmt2 = ft_strlen(get_n);
     fmt_int2 = ft_getnbr(&fmt[pr->i + l_fmt + 2]);
     pr->cpy = va_arg(pr->ap, char *);
+	pr->temp = pr->cpy == NULL ? 0 : pr->temp;
     if (pr->cpy != NULL)
     {
         len = ft_len(fmt[pr->i + l_fmt + l_fmt2 + 2], pr);
         pr->temp = len < fmt_int2 ? len : fmt_int2;
     }
-    else if (pr->cpy == NULL)
-        pr->temp = 0;
-    pr->c = pr->c + ft_putspace(fmt_int, pr->temp, ' ');
+	if (pr->cpy == NULL && fmt_int2 >= 6)
+	{
+		pr->c += 6;
+		pr->temp =6;
+		pr->c = pr->c + ft_putspace(fmt_int, pr->temp, ' ');
+		write(1, "(null)", 6);
+	}
+	else
+		pr->c = pr->c + ft_putspace(fmt_int, pr->temp, ' ');
     pr->c = pr->c + ft_putstrn(pr->cpy, fmt_int2);
     pr->i = pr->i + l_fmt + l_fmt2 + 2;
 }
