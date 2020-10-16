@@ -44,8 +44,8 @@ int	ft_printf_unbr(va_list ap)
 {
 	unsigned int	unbr;
 	unsigned int	unbr2;
-	int				nbr;
-	int				count;
+	int		    	nbr;
+	int			    count;
 
 	nbr = va_arg(ap, int);
 	unbr = nbr;

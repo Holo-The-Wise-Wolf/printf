@@ -116,6 +116,8 @@ void	handle_minus(const char *fmt, t_printf *pr)
 	int		len;
 	char	*get_n;
 
+	if (fmt[pr->i + 2] == '0')
+		pr->i += 1;
 	if (fmt[pr->i + 2] == '*')
 		handle_minstar(fmt, pr);
 	else

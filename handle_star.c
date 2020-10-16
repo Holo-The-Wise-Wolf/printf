@@ -60,21 +60,19 @@ void	stardot(const char *fmt, t_printf *pr, int l_fmt, int fmt_int)
 		l_fmt = l_fmt - 1;
 		minstardot(fmt, pr, l_fmt, fmt_int);
 	}
-	else if (fmt_int < pr->star_int)
-	{
-		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
-        res = pr->star_int - (pr->star_int - fmt_int);
-		pr->c = pr->c + ft_putspace(pr->star_int, res + pr->min, ' ');
-		int_neg(pr);
-		pr->c = pr->c + ft_putspace(res, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
-	}
 	else
 	{
+		if (fmt_int == 0 && pr->preczero == 1)
+			res = 0;
 		len = ft_len(fmt[pr->i + l_fmt + 3], pr);
+		res = len > fmt_int ? len : fmt_int;
+		pr->c = pr->c + ft_putspace(pr->star_int, res + pr->min, ' ');
 		int_neg(pr);
-		pr->c = pr->c + ft_putspace(pr->star_int, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
+		pr->c = pr->c + ft_putspace(fmt_int, len, '0');
+		if (fmt_int == 0 && pr->preczero == 1)
+			preczero(pr);
+		else
+			pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 3])](pr->ap);
 	}
 }
 

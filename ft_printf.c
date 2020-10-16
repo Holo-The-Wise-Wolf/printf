@@ -19,6 +19,7 @@ void	init_struct(t_printf *pr)
 	pr->star_int2 = 0;
 	pr->c = 0;
 	pr->i = 0;
+	pr->z = 0;
 	pr->temp = 0;
 	pr->preczero = 0;
 	pr->min = 0;

@@ -14,29 +14,34 @@
 
 void	handle_zerostar(const char *format, t_printf *pr)
 {
-    int len;
+	int len;
 
-	get_argstar2(pr);
-	len = ft_len(format[pr->i + 3], pr);
-    if (pr->star_int2 == 0 && pr->preczero == 1)
-    {
-        pr->preczero = 0;
-        va_arg(pr->ap, int);
-    }
-	else if (format[pr->i + 3] == 's')
+	if (format[pr->i + 3] == '.')
 	{
-        pr->starzero = 1;
-        dot_string(pr, 1, 0, len);
-    }
+		pr->i += 1;
+		handle_stardot(format, pr);
+	}
 	else
 	{
+		get_argstar2(pr);
 		len = ft_len(format[pr->i + 3], pr);
-		len += int_neg(pr);
-		pr->c += ft_putspace(pr->star_int2, len, '0');
-		pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
+		if (pr->star_int2 == 0 && pr->preczero == 1)
+			preczero(pr);
+		else if (format[pr->i + 3] == 's')
+		{
+			pr->starzero = 1;
+			dot_string(pr, 1, 0, len);
+		}
+		else
+		{
+		//	len = ft_len(format[pr->i + 3], pr);
+			len += int_neg(pr);
+			pr->c += ft_putspace(pr->star_int2, len, '0');
+			pr->c += pr->ptr[check_tab(format[pr->i + 3])](pr->ap);
+		}
+		pr->i += 3;
+		pr->star_int2 = 0;
 	}
-	pr->i += 3;
-	pr->star_int2 = 0;
 }
 
 void	handle_zero(const char *fmt, t_printf *pr)
@@ -51,6 +56,13 @@ void	handle_zero(const char *fmt, t_printf *pr)
     format_int = ft_getnbr(&fmt[pr->i + 1]);
 	if (fmt[pr->i + 2] == '*')
 		handle_zerostar(fmt, pr);
+	else if (fmt[pr->i + l_fmt + 1] == '.')
+		h_precis(fmt, pr, l_fmt, format_int);
+	else if (fmt[pr->i + 2] == '-')
+	{
+		pr->i += 1;
+		handle_minus(fmt, pr);
+	}
 	else
 	{
         len = ft_len(fmt[pr->i + l_fmt + 1], pr);

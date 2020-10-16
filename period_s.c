@@ -90,7 +90,9 @@ void	dot_string(t_printf *pr, int format_int, int min, int len)
     int target;
 
 	pr->cpy = va_arg(pr->ap, char *);
-	if (pr->star_int != 0)
+	if (pr->cpy == NULL)
+		;
+	else if (pr->star_int != 0)
 	{
 		target = format_int > len ? len : format_int;
 		if (min == 1)
