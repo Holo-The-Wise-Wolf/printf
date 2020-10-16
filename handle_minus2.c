@@ -18,20 +18,16 @@ void	minstardot(const char *fmt, t_printf *pr, int l_fmt, int fmt_i)
 	int	res;
 
 	len = ft_len(fmt[pr->i + l_fmt + 4], pr);
-	if (fmt_i < pr->star_int)
+	res = len > fmt_i ? len : fmt_i;
+	res += int_neg(pr);
+	pr->c = pr->c + ft_putspace(fmt_i, len, '0');
+	if (pr->star_int2 == 0 && pr->preczero == 1)
 	{
-		res = pr->star_int - (pr->star_int - fmt_i);
-		int_neg(pr);
-		pr->c = pr->c + ft_putspace(res, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 4])](pr->ap);
-		pr->c = pr->c + ft_putspace(pr->star_int, res + pr->min, ' ');
+		preczero(pr);
+		res = 0;
 	}
-	else
-	{
-	    int_neg(pr);
-		pr->c = pr->c + ft_putspace(fmt_i, len, '0');
-		pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 4])](pr->ap);
-	}
+	pr->c = pr->c + pr->ptr[check_tab(fmt[pr->i + l_fmt + 4])](pr->ap);
+	pr->c = pr->c + ft_putspace(pr->star_int, res, ' ');
 }
 
 void	handle_minstardot(const char *fmt, t_printf *pr)
@@ -74,8 +70,8 @@ void	handle_minstardotstar(const char *fmt, t_printf *pr)
 		if(pr->star_int < 0)
 			pr->star_int = pr->star_int * (-1);
 		pr->temp = len > pr->star_int2 ? len : pr->star_int2;
-		int_neg(pr);
-		pr->c = pr->c + ft_putspace(pr->temp, len, '0');
+		pr->temp += int_neg(pr);
+		pr->c = pr->c + ft_putspace(pr->star_int2, len, '0');
 		if (pr->star_int2 == 0 && pr->preczero == 1)
 		{
 			preczero(pr);

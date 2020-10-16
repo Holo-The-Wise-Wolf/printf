@@ -7,7 +7,7 @@ int	main()
 	int	b;
 	unsigned int u = 4147483647;
 
-	a = ft_printf("%.4s\n", NULL);
-	b = printf("%.4s\n", NULL);
+	a = ft_printf("%-*.*d\n", 2, 0, -4);
+	b = printf("%-*.*d\n", 2, 0, -4);
 	printf("%d\n%d\n", a, b);
 }
