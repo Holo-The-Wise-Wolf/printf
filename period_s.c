@@ -72,9 +72,11 @@ void	dot_stringstar(t_printf *pr, int min)
 
 	pr->cpy = va_arg(pr->ap, char *);
 	len = ft_strlen(va_arg(pr->pa, char *));
+	pr->star_int2 = pr->star_int2 < 0 ? len : pr->star_int2;
 	target = pr->star_int2 > len ? len : pr->star_int2;
 	if (min == 1)
 	{
+		pr->star_int = pr->star_int > 0 ? pr->star_int * (-1) : pr->star_int;
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
 		pr->c = pr->c + ft_putspace(pr->star_int * (-1), target, ' ');
 	}
