@@ -88,15 +88,30 @@ void	dot_stringstar(t_printf *pr, int min)
 	len = ft_strlen(va_arg(pr->pa, char *));
 	pr->star_int2 = pr->star_int2 < 0 ? len : pr->star_int2;
 	target = pr->star_int2 > len ? len : pr->star_int2;
+	target = pr->cpy == NULL ? 0 : target;
 	if (min == 1)
 	{
 		pr->star_int = pr->star_int > 0 ? pr->star_int * (-1) : pr->star_int;
+		if(pr->cpy == NULL && pr->star_int2 >= 6)
+		{
+			write(1, "(null)", 6);
+			pr->c += 6;
+			target = 6;
+		}
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
 		pr->c = pr->c + ft_putspace(pr->star_int * (-1), target, ' ');
 	}
 	else
 	{
-	    pr->c = pr->c + ft_putspace(pr->star_int, target, ' ');
+		if(pr->cpy == NULL && pr->star_int2 >= 6)
+		{
+			pr->c += 6;
+			target = 6;
+			pr->c = pr->c + ft_putspace(pr->star_int, target, ' ');
+			write(1, "(null)", 6);
+		}
+		else
+	        pr->c = pr->c + ft_putspace(pr->star_int, target, ' ');
 		pr->c = pr->c + ft_putstrn(pr->cpy, pr->star_int2);
 	}
 }
