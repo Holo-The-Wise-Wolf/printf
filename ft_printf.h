@@ -58,4 +58,7 @@ char	parse_specifier(t_printf *pr);
 // print.c
 int		print_arg(t_printf *pr, t_arg *arg);
 
+// utils.c
+int		corresponding(char c, char *s);
+
 #endif
