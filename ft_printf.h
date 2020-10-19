@@ -28,6 +28,7 @@ typedef struct	s_arg
 {
 	long	flags;
 	int		width;
+	int 	has_precision;
 	int		precision;
 	char	length;
 	char	specifier;
