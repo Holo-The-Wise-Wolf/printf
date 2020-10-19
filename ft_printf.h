@@ -48,12 +48,12 @@ int		t_printf_peek(t_printf *pr, char *next);
 
 // parser.c
 void	t_arg_init(t_arg *arg);
-t_arg	parse_arg(t_printf *pr);
-long	parse_flags(t_printf *pr);
-int		parse_width(t_printf *pr);
-int		parse_precision(t_printf *pr);
-char	parse_length(t_printf *pr);
-char	parse_specifier(t_printf *pr);
+void	parse_arg(t_printf *pr);
+void	parse_flags(t_printf *pr, t_arg *arg);
+void	parse_width(t_printf *pr, t_arg *arg);
+void	parse_precision(t_printf *pr, t_arg *arg);
+void	parse_length(t_printf *pr, t_arg *arg);
+void	parse_specifier(t_printf *pr, t_arg *arg);
 
 // print.c
 int		print_arg(t_printf *pr, t_arg *arg);
