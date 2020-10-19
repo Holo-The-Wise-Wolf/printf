@@ -52,7 +52,14 @@ void	parse_width(t_printf *pr, t_arg *arg)
 	while (corresponding(pr->fmt[pr->i], "*0123456789"))
 	{
 		if (pr->fmt[pr->i] == '*')
+		{
 			width = va_arg(pr->args, int);
+			if (width < 0)
+			{
+				arg->flags |= LEFT_JUSTIFY;
+				width = width * (-1);
+			}
+		}
 		else
 			width = width * 10 + (pr->fmt[pr->i] - '0');
 		pr->i += 1;
@@ -81,10 +88,10 @@ void	parse_precision(t_printf *pr, t_arg *arg)
 	arg->precision = precision;
 }
 
-char	parse_length(t_printf *pr)
+void	parse_length(t_printf *pr, t_arg *arg)
 {
 }
 
-char	parse_specifier(t_printf *pr)
+void	parse_specifier(t_printf *pr, t_arg *arg)
 {
 }

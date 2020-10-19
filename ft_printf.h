@@ -49,7 +49,7 @@ int		t_printf_peek(t_printf *pr, char *next);
 
 // parser.c
 void	t_arg_init(t_arg *arg);
-void	parse_arg(t_printf *pr);
+t_arg	parse_arg(t_printf *pr);
 void	parse_flags(t_printf *pr, t_arg *arg);
 void	parse_width(t_printf *pr, t_arg *arg);
 void	parse_precision(t_printf *pr, t_arg *arg);
