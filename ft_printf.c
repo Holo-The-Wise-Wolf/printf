@@ -14,8 +14,8 @@
 
 void	t_printf_init(t_printf *pr, const char *fmt)
 {
-	pr->fmt		= fmt;
-	pr->i		= 0;
+	pr->fmt	= fmt;
+	pr->i = 0;
 }
 
 int		t_printf_peek(t_printf *pr, char *next)
@@ -23,8 +23,8 @@ int		t_printf_peek(t_printf *pr, char *next)
 	*next = pr->fmt[pr->i];
 
 	if (*next != '\0')
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 
 int		ft_printf(const char *format, ...)
@@ -53,5 +53,5 @@ int		ft_printf(const char *format, ...)
 	}
 	va_end(pr.args);
 
-	return count;
+	return (count);
 }

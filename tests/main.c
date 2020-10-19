@@ -29,4 +29,12 @@ int main()
 	test_parse_width("64", 64);
 	test_parse_width("*", 18, -18);
 	test_parse_width("*", 15, 15);
+	test_parse_precision(".22", 22);
+	test_parse_precision(".*", 12, 12);
+	test_parse_precision("*", -32, -32);
+	test_parse_precision(".*", -240, -240);
+	test_parse_length("l", 'l');
+	test_parse_length("h", 'h');
+	test_parse_specifier("d", 'd');
+	test_parse_arg("-0126.36ld", LEFT_JUSTIFY | PAD_ZERO, 126, 1, 36, 'l', 'd');
 }
