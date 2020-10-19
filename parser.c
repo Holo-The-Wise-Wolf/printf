@@ -2,18 +2,19 @@
 
 void	t_arg_init(t_arg *arg)
 {
-	arg->flags		= 0;
-	arg->width		= 0;
-	arg->has_precision = 0;
-	arg->precision	= 0;
-	arg->length		= '\0';
-	arg->specifier	= '\0';
+	arg->flags			= 0;
+	arg->width			= 0;
+	arg->has_precision	= 0;
+	arg->precision		= 0;
+	arg->length			= '\0';
+	arg->specifier		= '\0';
 }
 
 t_arg	parse_arg(t_printf *pr)
 {
 	t_arg arg;
 
+	t_arg_init(&arg);
 	parse_flags(pr, &arg);
 	parse_width(pr, &arg);
 	parse_precision(pr, &arg);
@@ -46,9 +47,11 @@ void	parse_flags(t_printf *pr, t_arg *arg)
 
 void	parse_width(t_printf *pr, t_arg *arg)
 {
-	int	width;
+	int			width;
+	long int 	flags;
 
 	width = 0;
+	flags = arg->flags;
 	while (corresponding(pr->fmt[pr->i], "*0123456789"))
 	{
 		if (pr->fmt[pr->i] == '*')
@@ -56,7 +59,7 @@ void	parse_width(t_printf *pr, t_arg *arg)
 			width = va_arg(pr->args, int);
 			if (width < 0)
 			{
-				arg->flags |= LEFT_JUSTIFY;
+				flags |= LEFT_JUSTIFY;
 				width = width * (-1);
 			}
 		}
@@ -65,6 +68,7 @@ void	parse_width(t_printf *pr, t_arg *arg)
 		pr->i += 1;
 	}
 	arg->width = width;
+	arg->flags = flags;
 }
 
 void	parse_precision(t_printf *pr, t_arg *arg)
@@ -90,8 +94,26 @@ void	parse_precision(t_printf *pr, t_arg *arg)
 
 void	parse_length(t_printf *pr, t_arg *arg)
 {
+	char	length;
+
+	length = '\0';
+	if (corresponding(pr->fmt[pr->i], "hljztL"))
+	{
+		length = pr->fmt[pr->i];
+		pr->i += 1;
+	}
+	arg->length = length;
 }
 
 void	parse_specifier(t_printf *pr, t_arg *arg)
 {
+	char	specifier;
+
+	specifier = '\0';
+	if (corresponding(pr->fmt[pr->i], "diuxXpcs"))
+	{
+		specifier = pr->fmt[pr->i];
+		pr->i += 1;
+	}
+	arg->specifier = specifier;
 }

@@ -26,12 +26,12 @@ typedef struct	s_printf
 
 typedef struct	s_arg
 {
-	long	flags;
-	int		width;
-	int 	has_precision;
-	int		precision;
-	char	length;
-	char	specifier;
+	long int 	flags;
+	int			width;
+	int 		has_precision;
+	int			precision;
+	char		length;
+	char		specifier;
 }				t_arg;
 
 typedef enum	e_flags {
