@@ -34,6 +34,16 @@ typedef struct	s_arg
 	char		specifier;
 }				t_arg;
 
+typedef struct	s_formatted
+{
+	int		left_justify;
+	int 	spaces;
+	int 	zeroes;
+	char 	prefix;
+	char 	sign;
+	char	*content;
+}				t_formatted;
+
 typedef enum	e_flags {
 	LEFT_JUSTIFY	= 1 << 0,
 	SHOW_SIGN		= 1 << 1,
