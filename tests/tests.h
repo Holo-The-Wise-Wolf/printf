@@ -6,5 +6,6 @@
 #include "../ft_printf.h"
 
 void	test_parse_flags(const char *fmt, long expected);
+void	test_parse_width(const char *fmt, int expected, ...);
 
 #endif

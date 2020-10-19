@@ -26,4 +26,7 @@ int main()
 	test_parse_flags("-",	LEFT_JUSTIFY);
 	test_parse_flags("+",	SHOW_SIGN);
 	test_parse_flags("+#",	SHOW_SIGN | SHOW_PREFIX);
+	test_parse_width("64", 64);
+	test_parse_width("*", 18, -18);
+	test_parse_width("*", 15, 15);
 }
