@@ -17,6 +17,14 @@ void 	t_formatted_free(t_formatted *f)
 
 void 	do_print(t_formatted *f)
 {
+	if(f->left_justify == 0)
+		ft_putspace(f->spaces, ' ');
+	ft_putchar(f->sign);
+	ft_putchar(f->prefix);
+	ft_putspace(f->zeroes, '0');
+	ft_putstr_fd(f->content);
+	if (f->left_justify == 1)
+		ft_putspace(f->spaces, ' ');
 	//[espaces][sign][prefix][zeroes][contenu][espaces]
 	//contenu -> zeroes(precision) -> prefix -> sign -> espaces(width)
 	//print des espaces a gauche ou droite
@@ -27,6 +35,15 @@ void 	do_print(t_formatted *f)
 
 int		print_arg(t_printf *pr, t_arg *arg)
 {
+	int	count;
+	t_formatted f;
 
-	return 0;
+	t_formatted_init(&f);
+	handle_specifier(&arg, &f);
+	handle_flags(&arg, &f);
+	handle_width(&arg, &f)
+	do_print(&f);
+	t_formatted_free(&f);
+
+	return (count);
 }
