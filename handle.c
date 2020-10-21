@@ -183,21 +183,25 @@ int		spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f)
 
 void 	handle_precision(t_arg *arg, t_formatted *f, int len)
 {
-
+	if(arg->precision > 0 && arg->precision > len)
+		f->zeroes = arg->precision - len;
 }
 
-void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
+int 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
 {
 	int	len;
 
 	len = 0;
 	if (corresponding(arg->specifier, "diuxX"))
+	{
 		len = spec_number(pr, arg, f);
+		handle_precision(arg, f, len);
+	}
 	else if (arg->specifier == 's')
 		len = spec_string(pr, arg, f);
 	else if (arg->specifier == 'c')
 		len = spec_char(pr, f);
 	else if (arg->specifier == 'p')
 		len = spec_pointer(pr, arg, f);
-	handle_precision(arg, f, len);
+	return (len);
 }
