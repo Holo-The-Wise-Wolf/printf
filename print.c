@@ -39,11 +39,10 @@ int		print_arg(t_printf *pr, t_arg *arg)
 	t_formatted f;
 
 	t_formatted_init(&f);
-	handle_specifier(&arg, &f);
-	handle_flags(&arg, &f);
-	handle_width(&arg, &f)
+	count += handle_specifier(&arg, &f);
+	count += handle_flags(&arg, &f);
+	count += handle_width(&arg, &f)
 	do_print(&f);
 	t_formatted_free(&f);
-
 	return (count);
 }
