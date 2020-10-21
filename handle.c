@@ -12,6 +12,86 @@
 
 #include "ft_printf.h"
 
+int		ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	if(s == NULL)
+		return (6);
+	while (s[i])
+		i++;
+	return (i);
+}
+
+int	len_ptr(long int nb)
+{
+	int                 i;
+	long unsigned int   unb;
+
+	unb = nb;
+	i = 0;
+	if (unb == 0)
+		return (5);
+	while (unb > 0)
+	{
+		unb = unb / 16;
+		i++;
+	}
+	return (i + 2);
+}
+
+int	len_base(int nb, int b, char spec, t_formatted *f)
+{
+	int i;
+	unsigned int unb;
+
+	if (nb < 0 && corresponding(spec, "di"))
+	{
+		f->sign = '-';
+		nb = -nb;
+	}
+	unb = nb;
+	i = 0;
+	if (unb == 0)
+		return (1);
+	while (unb > 0)
+	{
+		unb = unb / b;
+		i++;
+	}
+	return (i);
+}
+
+char	*ft_itoa_base(int value, int base, char spec)
+{
+	int				size;
+	unsigned int	nbr;
+	char			*result;
+	char			*ref_base;
+
+	if (value < 0 && (spec == 'd' || spec == 'i'))
+		value = -value;
+	nbr = value;
+	if (spec == 'X')
+		ref_base = "0123456789ABCDEF";
+	else
+		ref_base = "0123456789abcdef";
+	if (base < 2 || base > 16)
+		return (NULL);
+	size = len_base(nbr, base);
+	if (!(result = (char*)malloc(sizeof(*result) * (size + 1))))
+		return (NULL);
+	result[size--] = '\0';
+	result[0] = (value < 0 ? '-' : '0');
+	while (nbr > 0)
+	{
+		result[size--] = ref_base[nbr % base];
+		nbr /= base;
+	}
+	return (result);
+}
+
 int		spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
 {
 	int 	nbr;
@@ -23,18 +103,18 @@ int		spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
 		return (0);
 	if (corresponding(arg->specifier, "diu"))
 	{
-		len = len_base(nbr, 10);
-		str = ft_itoa_base(nbr, 10);
+		len = len_base(nbr, 10, arg->specifier, &f);
+		str = ft_itoa_base(nbr, 10, arg->specifier);
 	}
 	if (arg->specifier == 'x')
 	{
-		len = len_base(nbr, 16);
-		str = ft_itoa_base(nbr, 16);
+		len = len_base(nbr, 16, arg->specifier, &f);
+		str = ft_itoa_base(nbr, 16, arg->specifier);
 	}
 	if (arg->specifier == 'X')
 	{
-		len = len_base(nbr, 16);
-		str = ft_itoa_baseX(nbr, 16);
+		len = len_base(nbr, 16, arg->specifier, &f);
+		str = ft_itoa_base(nbr, 16);
 	}
 	f->content = str;
 	return (len);
@@ -48,6 +128,11 @@ int		spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 
 	i = 0;
 	str = va_arg(pr->args, char *);
+	if(arg->precision >= 6 && str = NULL)
+	{
+		f->content = "(null)";
+		return (6);
+	}
 	if(arg->precision == 0)
 		return (0);
 	len = ft_strlen(str);
@@ -85,6 +170,11 @@ int		spec_pointer(t_printf *pr, t_formatted *f)
 	char 		*str;
 
 	nbr = va_arg(pr->args, long int);
+	if (nbr == NULL)
+	{
+		f->content = "(nil)";
+		return (5);
+	}
 	len = len_ptr(nbr);
 	str = ft_itoa_base(nbr, 16);
 	f->content = str;
