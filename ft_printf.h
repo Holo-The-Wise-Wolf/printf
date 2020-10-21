@@ -67,9 +67,32 @@ void	parse_length(t_printf *pr, t_arg *arg);
 void	parse_specifier(t_printf *pr, t_arg *arg);
 
 // print.c
+void 	t_formatted_init(t_formatted *f);
 int		print_arg(t_printf *pr, t_arg *arg);
+void 	t_formatted_free(t_formatted *f);
+void 	do_print(t_formatted *f);
+int 	count_printed(t_formatted *f);
 
 // utils.c
+int		ft_strlen(const char *s);
+void	ft_putchar(char c);
+void	ft_putstr_fd(char *s, int fd);
+int		ft_putspace(int len, char l);
 int		corresponding(char c, char *s);
+
+//handle.c
+void 	handle_width(t_arg *arg, t_formatted *f);
+void 	handle_flags(t_arg *arg, t_formatted *f);
+void 	handle_zeroes(t_arg *arg, t_formatted *f, int len);
+void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f);
+char	*ft_itoa_base(int value, int base, char spec, t_formatted *f);
+int		len_base(int nb, int b, char spec, t_formatted *f);
+int		len_ptr(long int nb);
+
+//specifier.c
+int		spec_number(t_printf *pr, t_arg *arg, t_formatted *f);
+int 	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f);
+int		spec_char(t_printf *pr, t_formatted *f);
+void	spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f);
 
 #endif

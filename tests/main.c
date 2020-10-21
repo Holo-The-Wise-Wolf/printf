@@ -36,5 +36,5 @@ int main()
 	test_parse_length("l", 'l');
 	test_parse_length("h", 'h');
 	test_parse_specifier("d", 'd');
-	test_parse_arg("-0126.36ld", LEFT_JUSTIFY | PAD_ZERO, 126, 1, 36, 'l', 'd');
+	test_parse_arg("-0126.036ld", LEFT_JUSTIFY | PAD_ZERO, 126, 1, 36, 'l', 'd');
 }

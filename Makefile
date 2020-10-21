@@ -1,6 +1,6 @@
 NAME = libftprintf.a
 
-SRCS = ft_printf.c parser.c print.c utils.c
+SRCS = ft_printf.c parser.c print.c utils.c handle.c specifier.c
 
 INCLUDES	= ft_printf.h
 

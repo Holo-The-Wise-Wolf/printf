@@ -22,7 +22,7 @@ void 	do_print(t_formatted *f)
 	ft_putchar(f->sign);
 	ft_putchar(f->prefix);
 	ft_putspace(f->zeroes, '0');
-	ft_putstr_fd(f->content);
+	ft_putstr_fd(f->content, 1);
 	if (f->left_justify == 1)
 		ft_putspace(f->spaces, ' ');
 	//[espaces][sign][prefix][zeroes][contenu][espaces]
@@ -33,16 +33,31 @@ void 	do_print(t_formatted *f)
 	//print content
 }
 
-int		print_arg(t_printf *pr, t_arg *arg)
+int 	count_printed(t_formatted *f)
 {
 	int	count;
+
+	count = ft_strlen(f->content);
+	count += f->zeroes;
+	count += f->spaces;
+	if (f->sign != '\0')
+		count += 1;
+	if (f->prefix != '\0')
+		count += 2;
+	return (count);
+}
+
+int		print_arg(t_printf *pr, t_arg *arg)
+{
+	int			count;
 	t_formatted f;
 
 	t_formatted_init(&f);
-	count += handle_specifier(&arg, &f);
-	count += handle_flags(&arg, &f);
-	count += handle_width(&arg, &f)
+	handle_specifier(pr, arg, &f);
+	handle_width(arg, &f);
+	handle_flags(arg, &f);
 	do_print(&f);
+	count = count_printed(&f);
 	t_formatted_free(&f);
 	return (count);
 }
