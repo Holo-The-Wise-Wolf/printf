@@ -18,7 +18,7 @@ int		ft_strlen(const char *s)
 
 	i = 0;
 	if(s == NULL)
-		return (6);
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -32,7 +32,7 @@ int	len_ptr(long int nb)
 	unb = nb;
 	i = 0;
 	if (unb == 0)
-		return (5);
+		return (0);
 	while (unb > 0)
 	{
 		unb = unb / 16;
@@ -63,7 +63,7 @@ int	len_base(int nb, int b, char spec, t_formatted *f)
 	return (i);
 }
 
-char	*ft_itoa_base(int value, int base, char spec)
+char	*ft_itoa_base(int value, int base, char spec, t_formatted *f)
 {
 	int				size;
 	unsigned int	nbr;
@@ -79,7 +79,7 @@ char	*ft_itoa_base(int value, int base, char spec)
 		ref_base = "0123456789abcdef";
 	if (base < 2 || base > 16)
 		return (NULL);
-	size = len_base(nbr, base);
+	size = len_base(nbr, base, spec, f);
 	if (!(result = (char*)malloc(sizeof(*result) * (size + 1))))
 		return (NULL);
 	result[size--] = '\0';
@@ -103,18 +103,18 @@ int		spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
 		return (0);
 	if (corresponding(arg->specifier, "diu"))
 	{
-		len = len_base(nbr, 10, arg->specifier, &f);
-		str = ft_itoa_base(nbr, 10, arg->specifier);
+		len = len_base(nbr, 10, arg->specifier, f);
+		str = ft_itoa_base(nbr, 10, arg->specifier, f);
 	}
 	if (arg->specifier == 'x')
 	{
-		len = len_base(nbr, 16, arg->specifier, &f);
-		str = ft_itoa_base(nbr, 16, arg->specifier);
+		len = len_base(nbr, 16, arg->specifier, f);
+		str = ft_itoa_base(nbr, 16, arg->specifier, f);
 	}
 	if (arg->specifier == 'X')
 	{
-		len = len_base(nbr, 16, arg->specifier, &f);
-		str = ft_itoa_base(nbr, 16);
+		len = len_base(nbr, 16, arg->specifier, f);
+		str = ft_itoa_base(nbr, 16, arg->specifier, f);
 	}
 	f->content = str;
 	return (len);
@@ -128,10 +128,10 @@ int		spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 
 	i = 0;
 	str = va_arg(pr->args, char *);
-	if(arg->precision >= 6 && str = NULL)
+	if(arg->precision >= 6 && str == NULL)
 	{
 		f->content = "(null)";
-		return (6);
+		return (ft_strlen(f->content));
 	}
 	if(arg->precision == 0)
 		return (0);
@@ -144,7 +144,7 @@ int		spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 	while (arg->precision + i != len)
 	{
 		str[arg->precision - 1 + i] = '\0';
-		i++
+		i++;
 	}
 	f->content = str;
 	return (arg->precision);
@@ -152,10 +152,10 @@ int		spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 
 int		spec_char(t_printf *pr, t_formatted *f)
 {
-	char c;
-	char *str;
+	char 	c;
+	char	*str;
 
-	c = va_arg(pr->args, char);
+	c = va_arg(pr->args, int);
 	str = malloc(sizeof(char) + 1);
 	str[0] = c;
 	str[1] = '\0';
@@ -163,35 +163,41 @@ int		spec_char(t_printf *pr, t_formatted *f)
 	return (1);
 }
 
-int		spec_pointer(t_printf *pr, t_formatted *f)
+int		spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f)
 {
-	long int	nbr;
+	long int	ptr;
 	int			len;
 	char 		*str;
 
-	nbr = va_arg(pr->args, long int);
-	if (nbr == NULL)
+	ptr = va_arg(pr->args, long int);
+	if (ptr == 0)
 	{
 		f->content = "(nil)";
-		return (5);
+		return (ft_strlen (f->content));
 	}
-	len = len_ptr(nbr);
-	str = ft_itoa_base(nbr, 16);
+	len = len_ptr(ptr);
+	str = ft_itoa_base(ptr, 16, arg->specifier, f);
 	f->content = str;
 	return (len);
+}
+
+void 	handle_precision(t_arg *arg, t_formatted *f, int len)
+{
+
 }
 
 void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
 {
 	int	len;
 
+	len = 0;
 	if (corresponding(arg->specifier, "diuxX"))
-		len = spec_number(&pr, &arg, &f);
+		len = spec_number(pr, arg, f);
 	else if (arg->specifier == 's')
-		len = spec_string(&pr, &f);
+		len = spec_string(pr, arg, f);
 	else if (arg->specifier == 'c')
-		len = spec_char(&pr, &f);
-	else_if (arg->specifier == 'p')
-		len = spec_pointer(&arg, &f);
-	handle_precision(&arg, &f, len);
+		len = spec_char(pr, f);
+	else if (arg->specifier == 'p')
+		len = spec_pointer(pr, arg, f);
+	handle_precision(arg, f, len);
 }
