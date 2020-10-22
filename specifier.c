@@ -95,10 +95,9 @@ int		spec_char(t_printf *pr, t_formatted *f)
 
 	c = va_arg(pr->args, int);
 	f->content = malloc(sizeof(char) * 2);
-	if (c == '\0')
+	if (c == NULL)
 	{
-		f->content[0] = '\0';
-		f->content[1] = '\0';
+		f->c_null = 1;
 		return (0);
 	}
 	f->content[0] = c;
@@ -123,16 +122,19 @@ void	spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f)
 {
 	long int	ptr;
 	char 		*str;
+	int 		len;
 
 	ptr = va_arg(pr->args, long int);
 	if (ptr == 0)
 	{
-		f->content = malloc(sizeof(char) * (ft_strlen("(nil)") + 1));
-		f->content = "(nil)";
+		len = ft_strlen("(nil)");
+		f->content = malloc(sizeof(char) * (len + 1));
+		ft_strlcpy(f->content, "(nil)", len + 1);
 	}
 	else
 	{
-		str = ft_itoa_base(ptr, 16, arg->specifier, f);
-		ft_strlcpy(f->content, str, ft_strlen(str) + 1);
+		str = itoa_base_ptr(ptr, 16);
+		len = ft_strlen(str);
+		ft_strlcpy(f->content, str, len + 1);
 	}
 }

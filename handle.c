@@ -51,12 +51,37 @@ int	len_base(int nb, int b, char spec, t_formatted *f)
 	return (i);
 }
 
+char	*itoa_base_ptr(long int value, int base)
+{
+	int						size;
+	long unsigned int		nbr;
+	char					*result;
+	char					*ref_base;
+
+	nbr = value;
+	ref_base = "0123456789abcdef";
+	if (base < 2 || base > 16)
+		return (NULL);
+	size = len_ptr(nbr);
+	if (!(result = (char*)malloc(sizeof(*result) * (size + 1))))
+		return (NULL);
+	result[size--] = '\0';
+	result[0] = '0';
+	result[1] = 'x';
+	while (nbr > 0)
+	{
+		result[size--] = ref_base[nbr % base];
+		nbr /= base;
+	}
+	return (result);
+}
+
 char	*ft_itoa_base(int value, int base, char spec, t_formatted *f)
 {
-	int				size;
-	unsigned int	nbr;
-	char			*result;
-	char			*ref_base;
+	int					size;
+	unsigned int		nbr;
+	char				*result;
+	char				*ref_base;
 
 	if (value < 0 && (spec == 'd' || spec == 'i'))
 		value = -value;
