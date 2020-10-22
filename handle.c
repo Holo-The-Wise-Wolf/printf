@@ -26,7 +26,7 @@ int	len_ptr(long int nb)
 		unb = unb / 16;
 		i++;
 	}
-	return (i + 2);
+	return (i);
 }
 
 int	len_base(int nb, int b, char spec, t_formatted *f)
@@ -63,7 +63,8 @@ char	*itoa_base_ptr(long int value, int base)
 	if (base < 2 || base > 16)
 		return (NULL);
 	size = len_ptr(nbr);
-	if (!(result = (char*)malloc(sizeof(*result) * (size + 1))))
+	size += 2;
+	if (!(result = (char*)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	result[size--] = '\0';
 	result[0] = '0';
@@ -112,7 +113,7 @@ void 	handle_width(t_arg *arg, t_formatted *f)
 	len = count_printed(f);
 	if (arg->width > len)
 		f->spaces = arg->width - len;
-	if((arg->flags & PAD_ZERO) != 0 && arg->has_precision == 0)
+	if((arg->flags & PAD_ZERO) != 0 && arg->has_precision == 0 && f->left_justify !=1 )
 	{
 		if(corresponding(arg->specifier, "diuxX"))
 		{
