@@ -110,7 +110,7 @@ void	parse_specifier(t_printf *pr, t_arg *arg)
 	char	specifier;
 
 	specifier = '\0';
-	if (corresponding(pr->fmt[pr->i], "diuxXpcs%"))
+	if (corresponding(pr->fmt[pr->i], "diuxXpcs%nfge"))
 	{
 		specifier = pr->fmt[pr->i];
 		pr->i += 1;

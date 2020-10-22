@@ -43,7 +43,7 @@ int		ft_printf(const char *format, ...)
 		if (next == '%')
 		{
 			arg = parse_arg(&pr);
-			count += print_arg(&pr, &arg);
+			count += print_arg(&pr, &arg, count);
 		}
 		else
 		{

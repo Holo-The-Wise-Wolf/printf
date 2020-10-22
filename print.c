@@ -54,13 +54,13 @@ int 	count_printed(t_formatted *f)
 	return (count);
 }
 
-int		print_arg(t_printf *pr, t_arg *arg)
+int		print_arg(t_printf *pr, t_arg *arg, int printed)
 {
 	int			count;
 	t_formatted f;
 
 	t_formatted_init(&f);
-	handle_specifier(pr, arg, &f);
+	handle_specifier(pr, arg, &f, printed);
 	handle_flags(arg, &f);
 	handle_width(arg, &f);
 	do_print(&f);
