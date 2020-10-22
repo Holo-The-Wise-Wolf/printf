@@ -7,6 +7,7 @@ void 	t_formatted_init(t_formatted *f)
 	f->sign = '\0';
 	f->left_justify = 0;
 	f->prefix = '\0';
+	f->c_null = 0;
 	f->content = NULL;
 }
 
@@ -22,7 +23,10 @@ void 	do_print(t_formatted *f)
 	ft_putchar(f->sign);
 	ft_putchar(f->prefix);
 	ft_putspace(f->zeroes, '0');
-	ft_putstr(f->content);
+	if(f-> c_null == 1)
+		write(1, "\0", 1);
+	else
+		ft_putstr(f->content);
 	if (f->left_justify == 1)
 		ft_putspace(f->spaces, ' ');
 	//[espaces][sign][prefix][zeroes][contenu][espaces]
@@ -37,7 +41,10 @@ int 	count_printed(t_formatted *f)
 {
 	int	count;
 
-	count = ft_strlen(f->content);
+	if (f->c_null == 1)
+		count = 1;
+	else
+		count = ft_strlen(f->content);
 	count += f->zeroes;
 	count += f->spaces;
 	if (f->sign != '\0')

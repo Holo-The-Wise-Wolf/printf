@@ -40,6 +40,7 @@ typedef struct	s_formatted
 	int 	spaces;
 	int 	zeroes;
 	char 	prefix;
+	int 	c_null;
 	char 	sign;
 	char	*content;
 }				t_formatted;
@@ -86,6 +87,7 @@ void 	handle_flags(t_arg *arg, t_formatted *f);
 void 	handle_zeroes(t_arg *arg, t_formatted *f, int len);
 void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f);
 char	*ft_itoa_base(int value, int base, char spec, t_formatted *f);
+char 	*itoa_base_ptr(long int value, int base);
 int		len_base(int nb, int b, char spec, t_formatted *f);
 int		len_ptr(long int nb);
 
