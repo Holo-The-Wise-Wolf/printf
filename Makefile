@@ -12,7 +12,7 @@ ARRC	= ar rc
 
 RM		= rm -f
 
-CFLAGS	= #-Wall -Wextra -Werror
+CFLAGS	= -g #-Wall -Wextra -Werror
 
 .c.o:
 			${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}

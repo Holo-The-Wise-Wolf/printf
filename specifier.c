@@ -135,6 +135,7 @@ void	spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f)
 	{
 		str = itoa_base_ptr(ptr, 16);
 		len = ft_strlen(str);
+		f->content = malloc(sizeof(char) * (len + 1));
 		ft_strlcpy(f->content, str, len + 1);
 	}
 }
