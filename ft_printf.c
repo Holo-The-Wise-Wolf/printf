@@ -16,6 +16,7 @@ void	t_printf_init(t_printf *pr, const char *fmt)
 {
 	pr->fmt	= fmt;
 	pr->i = 0;
+	pr->count = 0;
 }
 
 int		t_printf_peek(t_printf *pr, char *next)
@@ -31,10 +32,8 @@ int		ft_printf(const char *format, ...)
 {
 	t_printf	pr;
 	t_arg		arg;
-	int			count;
 	char		next;
 
-	count = 0;
 	t_printf_init(&pr, format);
 	va_start(pr.args, format);
 	while (t_printf_peek(&pr, &next))
@@ -43,15 +42,15 @@ int		ft_printf(const char *format, ...)
 		if (next == '%')
 		{
 			arg = parse_arg(&pr);
-			count += print_arg(&pr, &arg, count);
+			pr.count += print_arg(&pr, &arg);
 		}
 		else
 		{
 			write(1, &next, 1);
-			count ++;
+			pr.count ++;
 		}
 	}
 	va_end(pr.args);
 
-	return (count);
+	return (pr.count);
 }
