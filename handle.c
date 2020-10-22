@@ -154,7 +154,7 @@ void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
 	else if (arg->specifier == '%')
 		spec_percent(arg, f);
 	else if (arg->specifier == "n")
-		spec_n(pr, cnt);
+		spec_n(pr);
 	else if (arg->specifier == "f")
 		;
 	else if (arg->specifier == "e")
