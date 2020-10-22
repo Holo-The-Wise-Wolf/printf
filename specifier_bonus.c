@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include "ft_printf_bonus.h"
+//#include "ft_printf_bonus.h"
 
 void 	spec_float(t_printf *pr, t_arg *arg, t_formatted *f)
 {
@@ -23,5 +23,5 @@ void	spec_n(t_printf *pr)
 	int *n;
 
 	n	= va_arg(pr->args, int *);
-	*n	= pr.count;
+	*n	= pr->count;
 }
