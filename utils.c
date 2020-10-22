@@ -18,10 +18,9 @@ int		ft_strlen(const char *s)
 	return (i);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr(char *s)
 {
-	if (fd <= 2 && fd >= 0 && s)
-		write(fd, s, ft_strlen(s));
+		write(1, s, ft_strlen(s));
 }
 
 int		ft_putspace(int len, char l)
