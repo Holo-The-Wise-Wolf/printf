@@ -76,7 +76,7 @@ int 	count_printed(t_formatted *f);
 // utils.c
 int		ft_strlen(const char *s);
 void	ft_putchar(char c);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr(char *s);
 int		ft_putspace(int len, char l);
 int		corresponding(char c, char *s);
 
@@ -94,5 +94,7 @@ int		spec_number(t_printf *pr, t_arg *arg, t_formatted *f);
 int 	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f);
 int		spec_char(t_printf *pr, t_formatted *f);
 void	spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f);
+void 	spec_percent(t_arg *arg, t_formatted *f);
+
 
 #endif

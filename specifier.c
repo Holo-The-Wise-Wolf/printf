@@ -70,8 +70,9 @@ int		spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 		len = ft_strlen("(null)");
 		f->content = malloc(sizeof(char) * (len + 1));
 		ft_strlcpy(f->content, "(null)", len + 1);
+		return (0);
 	}
-	if (arg->precision == 0 && arg->has_precision != 0)
+	if (arg->precision == 0 && arg->has_precision == 1)
 		return (0);
 	len = ft_strlen(str);
 	if (arg->precision > len || arg->precision < 0 || arg->has_precision == 0)

@@ -82,19 +82,11 @@ char	*ft_itoa_base(int value, int base, char spec, t_formatted *f)
 
 void 	handle_width(t_arg *arg, t_formatted *f)
 {
-	int len;
+	int	len;
 
-	len = ft_strlen(f->content);
-	if(f->sign == '-' || f->sign == '+')
-		len += 1;
+	len = count_printed(f);
 	if (arg->width > len)
-		f->spaces = arg->width - len - f->zeroes;
-}
-
-void 	handle_flags(t_arg *arg, t_formatted *f)
-{
-	if((arg->flags & LEFT_JUSTIFY) != 0)
-		f->left_justify = 1;
+		f->spaces = arg->width - len;
 	if((arg->flags & PAD_ZERO) != 0 && arg->has_precision == 0)
 	{
 		if(corresponding(arg->specifier, "diuxX"))
@@ -103,6 +95,12 @@ void 	handle_flags(t_arg *arg, t_formatted *f)
 			f->spaces = 0;
 		}
 	}
+}
+
+void 	handle_flags(t_arg *arg, t_formatted *f)
+{
+	if((arg->flags & LEFT_JUSTIFY) != 0)
+		f->left_justify = 1;
 }
 
 void 	handle_zeroes(t_arg *arg, t_formatted *f, int len)
