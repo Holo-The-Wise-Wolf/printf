@@ -59,34 +59,27 @@ int		spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
 	return (len);
 }
 
-int		spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
+void	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 {
-	char 	*str;
-	int 	len;
+	char *str;
+	int len;
 
 	str = va_arg(pr->args, char *);
-	if ((arg->precision >= 6 || arg->precision < 0) && str == NULL)
+	if ((arg->precision >= 6 || arg->precision < 0 || arg->has_precision == 0)
+		&& str == NULL)
 	{
 		len = ft_strlen("(null)");
 		f->content = malloc(sizeof(char) * (len + 1));
 		ft_strlcpy(f->content, "(null)", len + 1);
-		return (0);
+		return;
 	}
 	if (arg->precision == 0 && arg->has_precision == 1)
-		return (0);
+		return;
 	len = ft_strlen(str);
-	if (arg->precision > len || arg->precision < 0 || arg->has_precision == 0)
-	{
-		f->content = malloc(sizeof(char) * (len + 1));
-		ft_strlcpy(f->content, str, len + 1);
-	}
-	else
-	{
-		len = arg->precision;
-		f->content = malloc(sizeof(char) * (len + 1));
-		ft_strlcpy(f->content, str, len + 1);
-	}
-	return (0);
+	len = (arg->precision > len || arg->precision < 0
+			|| arg->has_precision == 0) ? len : arg->precision;
+	f->content = malloc(sizeof(char) * (len + 1));
+	ft_strlcpy(f->content, str, len + 1);
 }
 
 int		spec_char(t_printf *pr, t_formatted *f)

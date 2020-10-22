@@ -135,7 +135,7 @@ void 	handle_zeroes(t_arg *arg, t_formatted *f, int len)
 		f->zeroes = arg->precision - len;
 }
 
-void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
+void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f, int cnt)
 {
 	int	len;
 
@@ -153,4 +153,12 @@ void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
 		spec_pointer(pr, arg, f);
 	else if (arg->specifier == '%')
 		spec_percent(arg, f);
+	else if (arg->specifier == "n")
+		spec_n(pr, cnt);
+	else if (arg->specifier == "f")
+		;
+	else if (arg->specifier == "e")
+		;
+	else if (arg->specifier == "g")
+		;
 }
