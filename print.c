@@ -60,7 +60,7 @@ int		print_arg(t_printf *pr, t_arg *arg)
 	t_formatted f;
 
 	t_formatted_init(&f);
-	handle_specifier(pr, arg, &f;
+	handle_specifier(pr, arg, &f);
 	handle_flags(arg, &f);
 	handle_width(arg, &f);
 	do_print(&f);

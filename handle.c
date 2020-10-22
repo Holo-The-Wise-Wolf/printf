@@ -111,7 +111,7 @@ void 	handle_width(t_arg *arg, t_formatted *f)
 	int	len;
 
 	len = count_printed(f);
-	if (arg->width > len)
+	if (arg->width > len && corresponding(arg->specifier, "n") != 1)
 		f->spaces = arg->width - len;
 	if((arg->flags & PAD_ZERO) != 0 && arg->has_precision == 0 && f->left_justify !=1 )
 	{
@@ -153,12 +153,12 @@ void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
 		spec_pointer(pr, arg, f);
 	else if (arg->specifier == '%')
 		spec_percent(arg, f);
-	else if (arg->specifier == "n")
+	else if (arg->specifier == 'n')
 		spec_n(pr);
-	else if (arg->specifier == "f")
+	else if (arg->specifier == 'f')
 		;
-	else if (arg->specifier == "e")
+	else if (arg->specifier == 'e')
 		;
-	else if (arg->specifier == "g")
+	else if (arg->specifier == 'g')
 		;
 }
