@@ -21,6 +21,7 @@ typedef struct	s_printf
 {
 	const char	*fmt;
 	int			i;
+	int 		count;
 	va_list		args;
 }				t_printf;
 
@@ -69,7 +70,7 @@ void			parse_specifier(t_printf *pr, t_arg *arg);
 
 // print.c
 void 			t_formatted_init(t_formatted *f);
-int				print_arg(t_printf *pr, t_arg *arg, int printed);
+int				print_arg(t_printf *pr, t_arg *arg);
 void 			t_formatted_free(t_formatted *f);
 void 			do_print(t_formatted *f);
 int 			count_printed(t_formatted *f);
@@ -85,7 +86,7 @@ int				corresponding(char c, char *s);
 void 			handle_width(t_arg *arg, t_formatted *f);
 void 			handle_flags(t_arg *arg, t_formatted *f);
 void 			handle_zeroes(t_arg *arg, t_formatted *f, int len);
-void 			handle_spec(t_printf *pr, t_arg *arg, t_formatted *f, int cnt);
+void 			handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f);
 char			*ft_itoa_base(int value, int base, char spec, t_formatted *f);
 char 			*itoa_base_ptr(long int value, int base);
 int				len_base(int nb, int b, char spec, t_formatted *f);

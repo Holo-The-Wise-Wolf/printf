@@ -135,7 +135,7 @@ void 	handle_zeroes(t_arg *arg, t_formatted *f, int len)
 		f->zeroes = arg->precision - len;
 }
 
-void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f, int cnt)
+void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
 {
 	int	len;
 
