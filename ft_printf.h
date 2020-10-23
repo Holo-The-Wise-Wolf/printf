@@ -99,5 +99,4 @@ int				spec_char(t_printf *pr, t_formatted *f);
 void			spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f);
 void 			spec_percent(t_arg *arg, t_formatted *f);
 
-
 #endif

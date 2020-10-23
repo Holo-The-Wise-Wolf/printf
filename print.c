@@ -21,7 +21,10 @@ void 	do_print(t_formatted *f)
 	if(f->left_justify == 0)
 		ft_putspace(f->spaces, ' ');
 	ft_putchar(f->sign);
-	ft_putchar(f->prefix);
+	if(f->prefix == 'x')
+		ft_putstr("0x");
+	if(f->prefix == 'X')
+		ft_putstr("0X");
 	ft_putspace(f->zeroes, '0');
 	if(f-> c_null == 1)
 		write(1, "\0", 1);
@@ -29,12 +32,6 @@ void 	do_print(t_formatted *f)
 		ft_putstr(f->content);
 	if (f->left_justify == 1)
 		ft_putspace(f->spaces, ' ');
-	//[espaces][sign][prefix][zeroes][contenu][espaces]
-	//contenu -> zeroes(precision) -> prefix -> sign -> espaces(width)
-	//print des espaces a gauche ou droite
-	//print sign
-	//si precision on peut print 0
-	//print content
 }
 
 int 	count_printed(t_formatted *f)
