@@ -12,28 +12,9 @@
 
 #include "ft_printf.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
-{
-	size_t	i;
-
-	i = 0;
-	if (!src)
-		return (0);
-	while (src[i])
-		i++;
-	if (dstsize <= 0)
-		return (i);
-	if (dstsize > i)
-		dstsize = i + 1;
-	while (*src && dstsize-- - 1)
-		*dst++ = *src++;
-	*dst = '\0';
-	return (i);
-}
-
 void	spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
 {
-	int 	nbr;
+	int	nbr;
 
 	nbr = va_arg(pr->args, int);
 	if (nbr < 0 && corresponding(arg->specifier, "di"))
@@ -41,20 +22,20 @@ void	spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
 		f->sign = '-';
 		nbr = -nbr;
 	}
-	if(nbr == 0 && arg->precision == 0 && arg->has_precision == 1)
-		return;
+	if (nbr == 0 && arg->precision == 0 && arg->has_precision == 1)
+		return ;
 	if (corresponding(arg->specifier, "diu"))
-		f->content = ft_itoa_base(nbr, 10, arg->specifier, f);
+		f->content = ft_itoa_base(nbr, 10, arg->specifier);
 	if (arg->specifier == 'x')
-		f->content = ft_itoa_base(nbr, 16, arg->specifier, f);
+		f->content = ft_itoa_base(nbr, 16, arg->specifier);
 	if (arg->specifier == 'X')
-		f->content = ft_itoa_base(nbr, 16, arg->specifier, f);
+		f->content = ft_itoa_base(nbr, 16, arg->specifier);
 }
 
-void	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
+void	spec_string(t_printf *pr, t_arg *arg, t_formatted *f)
 {
-	char *str;
-	int len;
+	char	*str;
+	int		len;
 
 	str = va_arg(pr->args, char *);
 	if ((arg->precision >= 6 || arg->precision < 0 || arg->has_precision == 0)
@@ -63,10 +44,10 @@ void	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 		len = ft_strlen("(null)");
 		f->content = malloc(sizeof(char) * (len + 1));
 		ft_strlcpy(f->content, "(null)", len + 1);
-		return;
+		return ;
 	}
 	if (arg->precision == 0 && arg->has_precision == 1)
-		return;
+		return ;
 	len = ft_strlen(str);
 	len = (arg->precision > len || arg->precision < 0
 			|| arg->has_precision == 0) ? len : arg->precision;
@@ -76,21 +57,21 @@ void	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 
 void	spec_char(t_printf *pr, t_formatted *f)
 {
-	char 	c;
+	char	c;
 
 	c = va_arg(pr->args, int);
 	f->content = malloc(sizeof(char) * 2);
 	if (c == 0)
 	{
 		f->c_null = 1;
-		return;
+		return ;
 	}
 	f->content[0] = c;
 	f->content[1] = '\0';
-	return;
+	return ;
 }
 
-void 	spec_percent(t_arg *arg, t_formatted *f)
+void	spec_percent(t_arg *arg, t_formatted *f)
 {
 	f->content = malloc(sizeof(char) * 2);
 	f->content[0] = '%';
@@ -103,11 +84,11 @@ void 	spec_percent(t_arg *arg, t_formatted *f)
 	arg->width = 0;
 }
 
-void	spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f)
+void	spec_pointer(t_printf *pr, t_formatted *f)
 {
 	long int	ptr;
-	char 		*str;
-	int 		len;
+	char		*str;
+	int			len;
 
 	ptr = va_arg(pr->args, long int);
 	if (ptr == 0)

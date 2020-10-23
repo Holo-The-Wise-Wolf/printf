@@ -1,14 +1,16 @@
-#include "ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 23:46:23 by lmoi              #+#    #+#             */
+/*   Updated: 2020/10/23 23:46:29 by lmoi             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	t_arg_init(t_arg *arg)
-{
-	arg->flags			= 0;
-	arg->width			= 0;
-	arg->has_precision	= 0;
-	arg->precision		= 0;
-	arg->length			= '\0';
-	arg->specifier		= '\0';
-}
+#include "ft_printf.h"
 
 t_arg	parse_arg(t_printf *pr)
 {
@@ -25,7 +27,7 @@ t_arg	parse_arg(t_printf *pr)
 
 void	parse_flags(t_printf *pr, t_arg *arg)
 {
-	long int    flags;
+	long int	flags;
 
 	flags = 0;
 	while (corresponding(pr->fmt[pr->i], "-+ #0"))
@@ -48,7 +50,7 @@ void	parse_flags(t_printf *pr, t_arg *arg)
 void	parse_width(t_printf *pr, t_arg *arg)
 {
 	int			width;
-	long int 	flags;
+	long int	flags;
 
 	width = 0;
 	flags = arg->flags;
@@ -90,19 +92,6 @@ void	parse_precision(t_printf *pr, t_arg *arg)
 		pr->i += 1;
 	}
 	arg->precision = precision;
-}
-
-void	parse_length(t_printf *pr, t_arg *arg)
-{
-	char	length;
-
-	length = '\0';
-	if (corresponding(pr->fmt[pr->i], "hljztL"))
-	{
-		length = pr->fmt[pr->i];
-		pr->i += 1;
-	}
-	arg->length = length;
 }
 
 void	parse_specifier(t_printf *pr, t_arg *arg)

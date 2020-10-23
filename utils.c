@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 23:52:58 by lmoi              #+#    #+#             */
+/*   Updated: 2020/10/23 23:53:03 by lmoi             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 void	ft_putchar(char c)
@@ -11,7 +23,7 @@ int		ft_strlen(const char *s)
 	int	i;
 
 	i = 0;
-	if(s == NULL)
+	if (s == NULL)
 		return (0);
 	while (s[i])
 		i++;
@@ -20,19 +32,19 @@ int		ft_strlen(const char *s)
 
 void	ft_putstr(char *s)
 {
-		write(1, s, ft_strlen(s));
+	write(1, s, ft_strlen(s));
 }
 
 void	ft_putspace(int len, char l)
 {
 	if (len <= 0)
-		return;
+		return ;
 	while (len > 0)
 	{
 		ft_putchar(l);
 		len--;
 	}
-	return;
+	return ;
 }
 
 int		corresponding(char c, char *s)
@@ -46,6 +58,5 @@ int		corresponding(char c, char *s)
 			return (1);
 		i++;
 	}
-
 	return (0);
 }

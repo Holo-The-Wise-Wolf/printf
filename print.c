@@ -1,32 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/23 23:33:48 by lmoi              #+#    #+#             */
+/*   Updated: 2020/10/23 23:34:06 by lmoi             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
-void 	t_formatted_init(t_formatted *f)
+void	do_print(t_formatted *f)
 {
-	f->spaces = 0;
-	f->zeroes = 0;
-	f->sign = '\0';
-	f->left_justify = 0;
-	f->prefix = '\0';
-	f->c_null = 0;
-	f->content = NULL;
-}
-
-void 	t_formatted_free(t_formatted *f)
-{
-	free(f->content);
-}
-
-void 	do_print(t_formatted *f)
-{
-	if(f->left_justify == 0)
+	if (f->left_justify == 0)
 		ft_putspace(f->spaces, ' ');
 	ft_putchar(f->sign);
-	if(f->prefix == 'x')
+	if (f->prefix == 'x')
 		ft_putstr("0x");
-	if(f->prefix == 'X')
+	if (f->prefix == 'X')
 		ft_putstr("0X");
 	ft_putspace(f->zeroes, '0');
-	if(f-> c_null == 1)
+	if (f->c_null == 1)
 		write(1, "\0", 1);
 	else
 		ft_putstr(f->content);
@@ -34,7 +30,7 @@ void 	do_print(t_formatted *f)
 		ft_putspace(f->spaces, ' ');
 }
 
-int 	count_printed(t_formatted *f)
+int		count_printed(t_formatted *f)
 {
 	int	count;
 

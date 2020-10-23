@@ -6,23 +6,15 @@
 /*   By: lmoi <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/09 01:00:10 by lmoi              #+#    #+#             */
-/*   Updated: 2020/10/13 18:09:29 by lmoi             ###   ########.fr       */
+/*   Updated: 2020/10/23 23:03:01 by lmoi             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	t_printf_init(t_printf *pr, const char *fmt)
-{
-	pr->fmt	= fmt;
-	pr->i = 0;
-	pr->count = 0;
-}
-
 int		t_printf_peek(t_printf *pr, char *next)
 {
 	*next = pr->fmt[pr->i];
-
 	if (*next != '\0')
 		return (1);
 	return (0);
@@ -47,10 +39,9 @@ int		ft_printf(const char *format, ...)
 		else
 		{
 			write(1, &next, 1);
-			pr.count ++;
+			pr.count++;
 		}
 	}
 	va_end(pr.args);
-
 	return (pr.count);
 }
