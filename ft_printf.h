@@ -79,23 +79,23 @@ int 			count_printed(t_formatted *f);
 int				ft_strlen(const char *s);
 void			ft_putchar(char c);
 void			ft_putstr(char *s);
-int				ft_putspace(int len, char l);
+void			ft_putspace(int len, char l);
 int				corresponding(char c, char *s);
 
 //handle.c
 void 			handle_width(t_arg *arg, t_formatted *f);
 void 			handle_flags(t_arg *arg, t_formatted *f);
-void 			handle_zeroes(t_arg *arg, t_formatted *f, int len);
+void 			handle_zeroes(t_arg *arg, t_formatted *f);
 void 			handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f);
 char			*ft_itoa_base(int value, int base, char spec, t_formatted *f);
 char 			*itoa_base_ptr(long int value, int base);
-int				len_base(int nb, int b, char spec, t_formatted *f);
+int				len_base(int nb, int b);
 int				len_ptr(long int nb);
 
 //specifier.c
-int				spec_number(t_printf *pr, t_arg *arg, t_formatted *f);
+void			spec_number(t_printf *pr, t_arg *arg, t_formatted *f);
 void 			spec_string(t_printf *pr, t_arg	*arg, t_formatted *f);
-int				spec_char(t_printf *pr, t_formatted *f);
+void			spec_char(t_printf *pr, t_formatted *f);
 void			spec_pointer(t_printf *pr, t_arg *arg, t_formatted *f);
 void 			spec_percent(t_arg *arg, t_formatted *f);
 

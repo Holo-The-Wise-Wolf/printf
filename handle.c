@@ -29,16 +29,11 @@ int	len_ptr(long int nb)
 	return (i);
 }
 
-int	len_base(int nb, int b, char spec, t_formatted *f)
+int	len_base(int nb, int b)
 {
 	int i;
 	unsigned int unb;
 
-	if (nb < 0 && corresponding(spec, "di"))
-	{
-		f->sign = '-';
-		nb = -nb;
-	}
 	unb = nb;
 	i = 0;
 	if (unb == 0)
@@ -93,7 +88,7 @@ char	*ft_itoa_base(int value, int base, char spec, t_formatted *f)
 		ref_base = "0123456789abcdef";
 	if (base < 2 || base > 16)
 		return (NULL);
-	size = len_base(nbr, base, spec, f);
+	size = len_base(nbr, base);
 	if (!(result = (char*)malloc(sizeof(*result) * (size + 1))))
 		return (NULL);
 	result[size--] = '\0';
@@ -137,21 +132,22 @@ void 	handle_flags(t_arg *arg, t_formatted *f)
 				f->prefix = arg->specifier;
 }
 
-void 	handle_zeroes(t_arg *arg, t_formatted *f, int len)
+void 	handle_zeroes(t_arg *arg, t_formatted *f)
 {
+	int len;
+
+	len = ft_strlen(f->content);
 	if(arg->precision > 0 && arg->precision > len)
 		f->zeroes = arg->precision - len;
 }
 
 void 	handle_specifier(t_printf *pr, t_arg *arg, t_formatted *f)
 {
-	int	len;
 
-	len = 0;
 	if (corresponding(arg->specifier, "diuxX"))
 	{
-		len = spec_number(pr, arg, f);
-		handle_zeroes(arg, f, len);
+		spec_number(pr, arg, f);
+		handle_zeroes(arg, f);
 	}
 	else if (arg->specifier == 's')
 		spec_string(pr, arg, f);

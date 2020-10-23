@@ -13,11 +13,6 @@
 #include "ft_printf.h"
 //#include "ft_printf_bonus.h"
 
-void 	spec_float(t_printf *pr, t_arg *arg, t_formatted *f)
-{
-
-}
-
 void	spec_n(t_printf *pr)
 {
 	int *n;

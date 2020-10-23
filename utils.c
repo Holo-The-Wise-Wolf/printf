@@ -23,16 +23,16 @@ void	ft_putstr(char *s)
 		write(1, s, ft_strlen(s));
 }
 
-int		ft_putspace(int len, char l)
+void	ft_putspace(int len, char l)
 {
 	if (len <= 0)
-		return (0);
+		return;
 	while (len > 0)
 	{
 		ft_putchar(l);
 		len--;
 	}
-	return (0);
+	return;
 }
 
 int		corresponding(char c, char *s)
