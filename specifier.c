@@ -31,32 +31,24 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 	return (i);
 }
 
-int		spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
+void	spec_number(t_printf *pr, t_arg *arg, t_formatted *f)
 {
 	int 	nbr;
-	int 	len;
-	char	*str;
 
 	nbr = va_arg(pr->args, int);
+	if (nbr < 0 && corresponding(arg->specifier, "di"))
+	{
+		f->sign = '-';
+		nbr = -nbr;
+	}
 	if(nbr == 0 && arg->precision == 0 && arg->has_precision == 1)
-		return (0);
+		return;
 	if (corresponding(arg->specifier, "diu"))
-	{
-		len = len_base(nbr, 10, arg->specifier, f);
-		str = ft_itoa_base(nbr, 10, arg->specifier, f);
-	}
+		f->content = ft_itoa_base(nbr, 10, arg->specifier, f);
 	if (arg->specifier == 'x')
-	{
-		len = len_base(nbr, 16, arg->specifier, f);
-		str = ft_itoa_base(nbr, 16, arg->specifier, f);
-	}
+		f->content = ft_itoa_base(nbr, 16, arg->specifier, f);
 	if (arg->specifier == 'X')
-	{
-		len = len_base(nbr, 16, arg->specifier, f);
-		str = ft_itoa_base(nbr, 16, arg->specifier, f);
-	}
-	f->content = str;
-	return (len);
+		f->content = ft_itoa_base(nbr, 16, arg->specifier, f);
 }
 
 void	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
@@ -82,20 +74,20 @@ void	spec_string(t_printf *pr, t_arg	*arg, t_formatted *f)
 	ft_strlcpy(f->content, str, len + 1);
 }
 
-int		spec_char(t_printf *pr, t_formatted *f)
+void	spec_char(t_printf *pr, t_formatted *f)
 {
 	char 	c;
 
 	c = va_arg(pr->args, int);
 	f->content = malloc(sizeof(char) * 2);
-	if (c == NULL)
+	if (c == 0)
 	{
 		f->c_null = 1;
-		return (0);
+		return;
 	}
 	f->content[0] = c;
 	f->content[1] = '\0';
-	return (1);
+	return;
 }
 
 void 	spec_percent(t_arg *arg, t_formatted *f)
