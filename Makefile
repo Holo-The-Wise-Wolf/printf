@@ -12,7 +12,7 @@ ARRC	= ar rc
 
 RM		= rm -f
 
-CFLAGS	= -g -Wall -Wextra -Werror
+CFLAGS	= -Wall -Wextra -Werror
 
 .c.o:
 			${GCC} ${CFLAGS} -c $< -o ${<:.c=.o}
@@ -32,4 +32,4 @@ fclean:		clean
 
 re :		fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		bonus all clean fclean re
