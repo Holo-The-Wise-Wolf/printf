@@ -125,8 +125,16 @@ void 	handle_width(t_arg *arg, t_formatted *f)
 
 void 	handle_flags(t_arg *arg, t_formatted *f)
 {
-	if((arg->flags & LEFT_JUSTIFY) != 0)
+	if ((arg->flags & LEFT_JUSTIFY) != 0)
 		f->left_justify = 1;
+	if ((arg->flags & SHOW_SIGN) != 0 && f->sign != '-')
+		f->sign = '+';
+	if ((arg->flags & NO_SIGN) != 0 && f->sign == '\0')
+		f->sign = ' ';
+	if ((arg->flags & SHOW_PREFIX) != 0)
+		if (corresponding(arg->specifier, "xX"))
+			if(f->content != NULL && f->content[0] != '0')
+				f->prefix = arg->specifier;
 }
 
 void 	handle_zeroes(t_arg *arg, t_formatted *f, int len)
