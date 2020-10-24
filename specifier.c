@@ -87,7 +87,6 @@ void	spec_percent(t_arg *arg, t_formatted *f)
 void	spec_pointer(t_printf *pr, t_formatted *f)
 {
 	long int	ptr;
-	char		*str;
 	int			len;
 
 	ptr = va_arg(pr->args, long int);
@@ -98,10 +97,5 @@ void	spec_pointer(t_printf *pr, t_formatted *f)
 		ft_strlcpy(f->content, "(nil)", len + 1);
 	}
 	else
-	{
-		str = itoa_base_ptr(ptr, 16);
-		len = ft_strlen(str);
-		f->content = malloc(sizeof(char) * (len + 1));
-		ft_strlcpy(f->content, str, len + 1);
-	}
+		f->content = itoa_base_ptr(ptr, 16);
 }
