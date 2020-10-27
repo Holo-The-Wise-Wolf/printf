@@ -1,3 +1,3 @@
 # ft_printf
 
-A rewrite of printf
+A rewrite of printf.
