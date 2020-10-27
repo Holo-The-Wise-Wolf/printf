@@ -22,7 +22,7 @@ void	handle_width(t_arg *arg, t_formatted *f)
 	if ((arg->flags & PAD_ZERO) != 0 && arg->has_precision == 0
 		&& f->left_justify != 1)
 	{
-		if (corresponding(arg->specifier, "diuxX"))
+		if (corresponding(arg->specifier, "diuxX%"))
 		{
 			f->zeroes = f->spaces;
 			f->spaces = 0;
