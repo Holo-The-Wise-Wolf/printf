@@ -38,10 +38,13 @@ void	spec_string(t_printf *pr, t_arg *arg, t_formatted *f)
 	int		len;
 
 	str = va_arg(pr->args, char *);
-	if ((arg->precision >= 6 || arg->precision < 0 || arg->has_precision == 0)
-		&& str == NULL)
+	if (str == NULL)
 	{
-		len = ft_strlen("(null)");
+		if (arg->precision >= 6 || arg->precision < 0
+			|| arg->has_precision == 0)
+			len = ft_strlen("(null)");
+		else
+			len = arg->precision;
 		f->content = malloc(sizeof(char) * (len + 1));
 		ft_strlcpy(f->content, "(null)", len + 1);
 		return ;
@@ -79,9 +82,7 @@ void	spec_percent(t_arg *arg, t_formatted *f)
 	f->prefix = '\0';
 	f->sign = '\0';
 	f->zeroes = 0;
-	f->spaces = 0;
 	arg->precision = 0;
-	arg->width = 0;
 }
 
 void	spec_pointer(t_printf *pr, t_formatted *f)
@@ -92,9 +93,9 @@ void	spec_pointer(t_printf *pr, t_formatted *f)
 	ptr = va_arg(pr->args, long int);
 	if (ptr == 0)
 	{
-		len = ft_strlen("(nil)");
+		len = ft_strlen("0x0");
 		f->content = malloc(sizeof(char) * (len + 1));
-		ft_strlcpy(f->content, "(nil)", len + 1);
+		ft_strlcpy(f->content, "0x0", len + 1);
 	}
 	else
 		f->content = itoa_base_ptr(ptr, 16);
